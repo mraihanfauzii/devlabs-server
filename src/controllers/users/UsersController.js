@@ -1,4 +1,3 @@
-const logger = require('../../utils/logger');
 const validator = require('../../validator');
 const usersSchema = require('../../validator/users/usersSchema');
 const { comparePassword } = require('../../utils/hashPassword');
