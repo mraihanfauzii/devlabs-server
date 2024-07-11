@@ -15,7 +15,7 @@ class UsersRepository {
       values: [email, hashedPassword, profile_name, phonenumber, role],
     };
 
-    const result = await db.query(query);
+    const result = await db.command(query);
 
     return result.rows[0];
   }
@@ -48,6 +48,18 @@ class UsersRepository {
     const query = 'SELECT * FROM users';
     const result = await db.query(query);
     return result.rows;
+  }
+
+  async getUserById(data) {
+    const { id } = data;
+
+    const query = {
+      text: 'SELECT * FROM users WHERE id = $1',
+      values: [id],
+    };
+
+    const result = await db.query(query);
+    return result;
   }
 }
 
