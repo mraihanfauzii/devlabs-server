@@ -55,6 +55,31 @@ class DB {
       }
     }
   }
+
+  async command(statement, values) {
+    let client;
+    try {
+      client = await this.pool.connect();
+      await client.query('BEGIN');
+      const res = await client.query(statement, values);
+      await client.query('COMMIT');
+      return {
+        ...res,
+        error: null,
+      };
+    } catch (err) {
+      await client.query('ROLLBACK');
+      logger.error('Database query error:', err);
+      return {
+        rows: [],
+        error: err.message,
+      };
+    } finally {
+      if (client) {
+        client.release();
+      }
+    }
+  }
 }
 
 module.exports = new DB();
