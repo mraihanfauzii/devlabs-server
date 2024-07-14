@@ -1,15 +1,12 @@
+const dataWrapper = require('../utils/dataWrapper');
+
 const validatePayload = (schema, payload) => {
   const { value, error } = schema.validate(payload);
   if (error) {
-    return {
-      err: error.details,
-      data: null,
-    };
+    const mappedError = error.details.map((err) => err.message.replace(/"/g, ''));
+    return dataWrapper.error(mappedError);
   }
-  return {
-    err: null,
-    data: value,
-  };
+  return dataWrapper.data(value);
 };
 
 module.exports = {

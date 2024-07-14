@@ -15,7 +15,7 @@ const skip = () => {
 
 // Build the Morgan middleware
 const morganMiddleware = morgan(
-  ':method :url :status :res[content-length] - :response-time ms',
+  ':remote-addr :method :url :status :res[content-length] - :response-time ms',
   { stream, skip },
 );
 
