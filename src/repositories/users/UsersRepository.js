@@ -17,7 +17,7 @@ class UsersRepository {
 
     const result = await db.command(query);
 
-    return result.rows[0];
+    return result;
   }
 
   async getUserByEmailAndRole(data) {
@@ -29,7 +29,7 @@ class UsersRepository {
     };
 
     const result = await db.query(query);
-    return result.rows[0];
+    return result;
   }
 
   async getUserByEmail(data) {
@@ -41,13 +41,13 @@ class UsersRepository {
     };
 
     const result = await db.query(query);
-    return result.rows[0];
+    return result;
   }
 
   async getAllUsers() {
     const query = 'SELECT * FROM users';
     const result = await db.query(query);
-    return result.rows;
+    return result;
   }
 
   async getUserById(data) {
