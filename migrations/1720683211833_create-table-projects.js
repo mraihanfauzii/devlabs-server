@@ -24,6 +24,10 @@ exports.up = (pgm) => {
       type: 'varchar(100)',
       notNull: true,
     },
+    notes: {
+      type: 'varchar(250)',
+      notNull: true,
+    },
     created_at: {
       type: 'timestamp',
       default: pgm.func('current_timestamp'),

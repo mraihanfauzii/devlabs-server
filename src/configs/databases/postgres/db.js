@@ -1,6 +1,7 @@
 // src/configs/db.js
 const { Pool } = require('pg');
 const logger = require('../../../utils/logger');
+const dataWrapper = require('../../../utils/dataWrapper');
 
 class DB {
   constructor() {
@@ -25,12 +26,28 @@ class DB {
   }
 
   async initialConnect() {
-    try {
-      await this.pool.connect();
-      logger.info('Initial database connection successful');
-    } catch (err) {
-      logger.error('Initial database connection error:', err);
-      logger.info('Continuing to run server without database connection');
+    const maxRetries = 10;
+    let attempts = 0;
+    while (attempts < maxRetries) {
+      let client;
+      try {
+        client = await this.pool.connect();
+        logger.info('Initial database connection successful');
+        return;
+      } catch (err) {
+        attempts += 1;
+        logger.error(`Initial database connection error (attempt ${attempts}):`, err);
+        if (attempts < maxRetries) {
+          logger.info(`Retrying database connection (attempt ${attempts + 1})...`);
+          await new Promise((resolve) => { setTimeout(resolve, 5000); });
+        } else {
+          logger.info('Continuing to run server without database connection');
+        }
+      } finally {
+        if (client) {
+          client.release();
+        }
+      }
     }
   }
 
@@ -39,16 +56,13 @@ class DB {
     try {
       client = await this.pool.connect();
       const res = await client.query(statement, values);
-      return {
-        ...res,
-        error: null,
-      };
+      if (!res.rows || res.rowCount === 0) {
+        return dataWrapper.error('No data returned from query');
+      }
+      return dataWrapper.data(res.rows);
     } catch (err) {
       logger.error('Database query error:', err);
-      return {
-        rows: [],
-        error: err.message,
-      };
+      return dataWrapper.error(err.message);
     } finally {
       if (client) {
         client.release();
@@ -63,17 +77,16 @@ class DB {
       await client.query('BEGIN');
       const res = await client.query(statement, values);
       await client.query('COMMIT');
-      return {
-        ...res,
-        error: null,
-      };
+      if (!res.rows || res.rowCount === 0) {
+        return dataWrapper.error('No data returned from query');
+      }
+      return dataWrapper.data(res.rows);
     } catch (err) {
-      await client.query('ROLLBACK');
+      if (client) {
+        await client.query('ROLLBACK');
+      }
       logger.error('Database query error:', err);
-      return {
-        rows: [],
-        error: err.message,
-      };
+      return dataWrapper.error(err.message);
     } finally {
       if (client) {
         client.release();

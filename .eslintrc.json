@@ -23,6 +23,7 @@
         ],
         "object-curly-newline": "off",
         "no-param-reassign": "off",
-        "consistent-return": "off"
+        "consistent-return": "off",
+        "no-await-in-loop": "off"
     }
 }
