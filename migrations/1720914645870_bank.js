@@ -9,30 +9,30 @@ exports.shorthands = undefined;
  * @returns {Promise<void> | void}
  */
 exports.up = (pgm) => {
-    pgm.createTable('banks', {
-        id: {
-          type: 'uuid',
-          primaryKey: true,
-          default: pgm.func('uuid_generate_v4()'),
-        },
-        name: {
-          type: 'varchar(100)',
-          notNull: true,
-        },
-        accname: {
-          type: 'varchar(100)',
-          notNull: true,
-        },
-        accnumber: {
-          type: 'varchar(100)',
-          notNull: true,
-        },
-        created_at: {
-          type: 'timestamp',
-          default: pgm.func('current_timestamp'),
-        },
-    });
-    pgm.sql(`
+  pgm.createTable('banks', {
+    id: {
+      type: 'uuid',
+      primaryKey: true,
+      default: pgm.func('uuid_generate_v4()'),
+    },
+    name: {
+      type: 'varchar(100)',
+      notNull: true,
+    },
+    accname: {
+      type: 'varchar(100)',
+      notNull: true,
+    },
+    accnumber: {
+      type: 'varchar(100)',
+      notNull: true,
+    },
+    created_at: {
+      type: 'timestamp',
+      default: pgm.func('current_timestamp'),
+    },
+  });
+  pgm.sql(`
     INSERT INTO banks (id, name, accName, accNumber) VALUES
       ('6bccf43e-b413-42e8-86f4-f9312566466c', 'BCA', 'PT Devlab', '1234567890'),
       ('a0b6dea6-9610-42a1-8b1f-2ffce7566f6d', 'BNI', 'PT Devlab', '0987654321'),
@@ -50,5 +50,5 @@ exports.up = (pgm) => {
  * @returns {Promise<void> | void}
  */
 exports.down = (pgm) => {
-    pgm.dropTable('banks');
+  pgm.dropTable('banks');
 };

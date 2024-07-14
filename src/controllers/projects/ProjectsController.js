@@ -11,18 +11,18 @@ class ProjectsController {
     const payload = { ...req.body };
     payload.client_id = req.user.id;
     const validatedPayload = validator.validatePayload(projectsSchema.addProject, payload);
-    if (validatedPayload.err) {
+    if (validatedPayload.error) {
       return res.status(400).json({
         success: false,
-        message: validatedPayload.err,
+        message: validatedPayload.error,
         code: 400,
       });
     }
 
     const isUserExist = await this.usersRepository.getUserById({ id: validatedPayload.data.vendor_id });
 
-    if (isUserExist.rows.length === 0) {
-      return res.status(404).send({
+    if (isUserExist.error) {
+      return res.status(404).json({
         success: false,
         message: 'User not found',
         code: 404,
@@ -32,48 +32,47 @@ class ProjectsController {
     const result = await this.projectsRepository.addProject(validatedPayload.data);
 
     if (result.error) {
-      return res.status(500).send({
+      return res.status(500).json({
         success: false,
         message: 'Failed to create project',
         code: 500,
       });
     }
 
-    return res.status(201).send({
+    return res.status(201).json({
       success: true,
       message: 'Project succesfully created',
       code: 201,
-      data: result.rows[0],
+      data: result.data[0],
     });
   }
 
   async getProjectsByUserId(req, res) {
     const payload = { user_id: req.user.id };
     const validatedPayload = validator.validatePayload(projectsSchema.getProjectsByUserId, payload);
-    if (validatedPayload.err) {
+    if (validatedPayload.error) {
       return res.status(400).json({
         success: false,
-        message: validatedPayload.err,
+        message: validatedPayload.error,
         code: 400,
       });
     }
 
     const projects = await this.projectsRepository.getProjectsByUserId({ id: validatedPayload.data.user_id });
 
-    if (projects.rows.length === 0) {
-      return res.status(404).send({
+    if (projects.error) {
+      return res.status(404).json({
         success: false,
         message: 'Projects not found',
         code: 404,
-        data: projects.rows,
       });
     }
 
-    return res.status(200).send({
+    return res.status(200).json({
       success: true,
       message: 'All projects successfully fetched',
       code: 200,
-      data: projects.rows,
+      data: projects.data,
     });
   }
 
@@ -81,26 +80,26 @@ class ProjectsController {
     const payload = { ...req.params };
     payload.user_id = req.user.id;
     const validatedPayload = validator.validatePayload(projectsSchema.deleteProjectById, payload);
-    if (validatedPayload.err) {
+    if (validatedPayload.error) {
       return res.status(400).json({
         success: false,
-        message: validatedPayload.err,
+        message: validatedPayload.error,
         code: 400,
       });
     }
 
     const project = await this.projectsRepository.getProjectById(validatedPayload.data);
 
-    if (project.rows.length === 0) {
-      return res.status(404).send({
+    if (project.error) {
+      return res.status(404).json({
         success: false,
         message: 'Projects not found',
         code: 404,
       });
     }
 
-    if (project.rows[0].client_id !== validatedPayload.data.user_id) {
-      return res.status(403).send({
+    if (project.data[0].client_id !== validatedPayload.data.user_id) {
+      return res.status(403).json({
         success: false,
         message: 'Unauthorized to delete projects not owned by you',
         code: 403,
@@ -110,7 +109,7 @@ class ProjectsController {
     const result = await this.projectsRepository.deleteProjectById(validatedPayload.data);
 
     if (result.error) {
-      return res.status(500).send({
+      return res.status(500).json({
         success: false,
         message: 'Failed to delete project',
         code: 500,

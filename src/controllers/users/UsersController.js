@@ -11,16 +11,16 @@ class UsersController {
   async register(req, res) {
     const payload = { ...req.body };
     const validatedPayload = validator.validatePayload(usersSchema.registerUser, payload);
-    if (validatedPayload.err) {
+    if (validatedPayload.error) {
       return res.status(400).json({
         success: false,
-        message: validatedPayload.err,
+        message: validatedPayload.error,
         code: 400,
       });
     }
 
     const isEmailExist = await this.usersRepository.getUserByEmail(validatedPayload.data);
-    if (isEmailExist) {
+    if (isEmailExist.data) {
       return res.status(400).json({
         success: false,
         message: 'Email already exist',
@@ -30,28 +30,36 @@ class UsersController {
 
     const result = await this.usersRepository.registerUser(validatedPayload.data);
 
-    return res.status(201).send({
+    if (result.error) {
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to register user',
+        code: 500,
+      });
+    }
+
+    return res.status(201).json({
       success: true,
       message: 'User successfully registered',
       code: 201,
-      data: result,
+      data: result.data[0],
     });
   }
 
   async login(req, res) {
     const payload = { ...req.body };
     const validatedPayload = validator.validatePayload(usersSchema.loginUser, payload);
-    if (validatedPayload.err) {
+    if (validatedPayload.error) {
       return res.status(400).json({
         success: false,
-        message: validatedPayload.err,
+        message: validatedPayload.error,
         code: 400,
       });
     }
 
     const result = await this.usersRepository.getUserByEmailAndRole(validatedPayload.data);
 
-    if (!result) {
+    if (result.error) {
       return res.status(400).json({
         success: false,
         message: 'Email or password is incorrect',
@@ -59,7 +67,7 @@ class UsersController {
       });
     }
 
-    const isPasswordMatch = await comparePassword(validatedPayload.data.password, result.password);
+    const isPasswordMatch = await comparePassword(validatedPayload.data.password, result.data[0].password);
 
     if (!isPasswordMatch) {
       return res.status(400).json({
@@ -68,11 +76,11 @@ class UsersController {
         code: 400,
       });
     }
+    const userData = result.data[0];
+    delete userData.password;
+    const accessToken = jwtToken.generateAccessToken(userData);
 
-    delete result.password;
-    const accessToken = jwtToken.generateAccessToken(result);
-
-    return res.status(200).send({
+    return res.status(200).json({
       success: true,
       message: 'User successfully logged in',
       code: 200,
@@ -85,15 +93,23 @@ class UsersController {
   async getAllUsers(req, res) {
     const result = await this.usersRepository.getAllUsers();
 
-    result.forEach((user) => {
+    result.data.forEach((user) => {
       delete user.password;
     });
 
-    return res.status(200).send({
+    if (result.error) {
+      return res.status(404).json({
+        success: false,
+        message: 'Users not found',
+        code: 404,
+      });
+    }
+
+    return res.status(200).json({
       success: true,
       message: 'All users successfully fetched',
       code: 200,
-      data: result,
+      data: result.data,
     });
   }
 }
