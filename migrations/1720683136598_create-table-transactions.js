@@ -10,9 +10,6 @@ exports.up = (pgm) => {
       primaryKey: true,
       default: pgm.func('uuid_generate_v4()'),
     },
-    project_id: {
-      type: 'uuid',
-    },
     status: {
       type: 'varchar(100)',
       notNull: true,
@@ -38,7 +35,6 @@ exports.up = (pgm) => {
     },
   });
 
-  pgm.addConstraint('transactions', 'fk_project_id', 'FOREIGN KEY(project_id) REFERENCES projects(id) ON DELETE SET NULL');
   pgm.addConstraint('transactions', 'fk_payment_id', 'FOREIGN KEY(payment_method) REFERENCES payments(id) ON DELETE SET NULL');
 };
 

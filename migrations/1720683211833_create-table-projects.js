@@ -16,6 +16,9 @@ exports.up = (pgm) => {
     vendor_id: {
       type: 'uuid',
     },
+    transaction_id: {
+      type: 'uuid',
+    },
     status: {
       type: 'varchar(100)',
       notNull: true,
@@ -26,7 +29,6 @@ exports.up = (pgm) => {
     },
     notes: {
       type: 'varchar(250)',
-      notNull: true,
     },
     created_at: {
       type: 'timestamp',
@@ -36,6 +38,7 @@ exports.up = (pgm) => {
 
   pgm.addConstraint('projects', 'fk_client', 'FOREIGN KEY(client_id) REFERENCES users(id) ON DELETE SET NULL');
   pgm.addConstraint('projects', 'fk_vendor', 'FOREIGN KEY(vendor_id) REFERENCES users(id) ON DELETE SET NULL');
+  pgm.addConstraint('projects', 'fk_transaction', 'FOREIGN KEY(transaction_id) REFERENCES transactions(id) ON DELETE SET NULL');
 };
 
 /**
