@@ -18,8 +18,7 @@ exports.up = (pgm) => {
       notNull: true,
     },
     payment_method: {
-      type: 'varchar(100)',
-      notNull: true,
+      type: 'uuid',
     },
     created_at: {
       type: 'timestamp',
@@ -28,6 +27,7 @@ exports.up = (pgm) => {
   });
 
   pgm.addConstraint('transactions', 'fk_project_id', 'FOREIGN KEY(project_id) REFERENCES projects(id) ON DELETE SET NULL');
+  pgm.addConstraint('transactions', 'fk_payment_id', 'FOREIGN KEY(payment_method) REFERENCES payments(id) ON DELETE SET NULL');
 };
 
 /**
