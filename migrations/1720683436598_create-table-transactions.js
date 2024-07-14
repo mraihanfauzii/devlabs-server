@@ -17,6 +17,18 @@ exports.up = (pgm) => {
       type: 'varchar(100)',
       notNull: true,
     },
+    price: {
+      type: 'decimal(12,2)',
+      notNull: true,
+    },
+    tax: {
+      type: 'decimal(12,2)',
+      notNull: true,
+    },
+    amount: {
+      type: 'decimal(12,2)',
+      notNull: true,
+    },
     payment_method: {
       type: 'uuid',
     },
