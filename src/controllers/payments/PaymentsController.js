@@ -11,9 +11,10 @@ class PaymentsController {
       success: true,
       message: 'Payment method found',
       code: 200,
-      data: payment.rows,
+      data: payment.data,
     });
   }
+
   async getAllPaymentMethodByID(req, res) {
     const id = req.params
     const payment = await this.PaymentsRepository.getAllPaymentMethodByID(id);
@@ -22,7 +23,7 @@ class PaymentsController {
       success: true,
       message: 'Payment method by id found',
       code: 200,
-      data: payment.rows[0],
+      data: payment.data[0],
     });
   }
 
