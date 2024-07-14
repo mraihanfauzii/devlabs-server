@@ -4,31 +4,30 @@
  * @returns {Promise<void> | void}
  */
 exports.up = (pgm) => {
-  pgm.createTable('projects', {
+  pgm.createTable('transactions', {
     id: {
       type: 'uuid',
       primaryKey: true,
       default: pgm.func('uuid_generate_v4()'),
     },
-    client_id: {
-      type: 'uuid',
-    },
-    vendor_id: {
-      type: 'uuid',
-    },
-    transaction_id: {
-      type: 'uuid',
-    },
     status: {
       type: 'varchar(100)',
       notNull: true,
     },
-    name: {
-      type: 'varchar(100)',
+    price: {
+      type: 'decimal(12,2)',
       notNull: true,
     },
-    notes: {
-      type: 'varchar(250)',
+    tax: {
+      type: 'decimal(12,2)',
+      notNull: true,
+    },
+    amount: {
+      type: 'decimal(12,2)',
+      notNull: true,
+    },
+    payment_method: {
+      type: 'uuid',
     },
     created_at: {
       type: 'timestamp',
@@ -36,9 +35,7 @@ exports.up = (pgm) => {
     },
   });
 
-  pgm.addConstraint('projects', 'fk_client', 'FOREIGN KEY(client_id) REFERENCES users(id) ON DELETE SET NULL');
-  pgm.addConstraint('projects', 'fk_vendor', 'FOREIGN KEY(vendor_id) REFERENCES users(id) ON DELETE SET NULL');
-  pgm.addConstraint('projects', 'fk_transaction', 'FOREIGN KEY(transaction_id) REFERENCES transactions(id) ON DELETE SET NULL');
+  pgm.addConstraint('transactions', 'fk_payment_id', 'FOREIGN KEY(payment_method) REFERENCES payments(id) ON DELETE SET NULL');
 };
 
 /**
@@ -47,5 +44,5 @@ exports.up = (pgm) => {
  * @returns {Promise<void> | void}
  */
 exports.down = (pgm) => {
-  pgm.dropTable('projects');
+  pgm.dropTable('transactions');
 };

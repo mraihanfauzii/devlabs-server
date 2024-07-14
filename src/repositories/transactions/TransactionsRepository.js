@@ -2,14 +2,14 @@ const db = require('../../configs/databases/postgres/db');
 
 class TransactionsRepository {
   async addTransaction(data) {
-    const { project_id } = data;
+    const { project_id, payment_method } = data;
 
     const query = {
       text: `
         INSERT INTO transactions (project_id, status, payment_method)
         VALUES ($1, $2, $3)
         RETURNING id`,
-      values: [project_id, 'Menunggu pembayaran', 'BCA 894187889'],
+      values: [project_id, 'Menunggu pembayaran', payment_method],
     };
 
     const result = await db.command(query);
