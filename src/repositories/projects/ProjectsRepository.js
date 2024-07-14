@@ -16,6 +16,19 @@ class TransactionsRepository {
     return result;
   }
 
+  async accProject(data) {
+    const  id  = data;
+    const query = {
+      text: `
+        UPDATE projects
+        SET status = $1
+        WHERE id = $2`,
+      values: ['Pembayaran', id],
+    };
+    const result = await db.query(query);
+    return result;
+  }
+  
   async getProjectsByUserId(data) {
     const { id } = data;
 

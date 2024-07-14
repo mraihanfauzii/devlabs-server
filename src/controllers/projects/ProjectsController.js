@@ -47,6 +47,27 @@ class ProjectsController {
     });
   }
 
+  async accProject(req, res) {
+    const { id } = req.params
+
+    const result = await this.projectsRepository.accProject(id);
+
+    if (result.error) {
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to accept project',
+        code: 500,
+      });
+    }
+
+    return res.status(201).json({
+      success: true,
+      message: 'Project succesfully accepted',
+      code: 201,
+      data: result,
+    });
+  }
+
   async getProjectsByUserId(req, res) {
     const payload = { user_id: req.user.id };
     const validatedPayload = validator.validatePayload(projectsSchema.getProjectsByUserId, payload);

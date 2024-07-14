@@ -11,6 +11,7 @@ const usersRepository = new UsersRepository();
 const projectsController = new ProjectsController(projectsRepository, usersRepository);
 
 router.post('/', authMiddleware, (req, res) => projectsController.addProject(req, res));
+router.put('/:id/accept-project', authMiddleware, (req, res) => projectsController.accProject(req, res));
 router.get('/', authMiddleware, (req, res) => projectsController.getProjectsByUserId(req, res));
 router.delete('/:id', authMiddleware, (req, res) => projectsController.deleteProjectById(req, res));
 
