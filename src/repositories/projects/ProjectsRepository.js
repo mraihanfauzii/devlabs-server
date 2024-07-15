@@ -33,27 +33,50 @@ class projectsRepository {
     return result;
   }
   
-  async getProjectsByUserId(data) {
+  async getProjectsByUserId(data, role) {
+    console.log(role)
     const { id } = data;
-    const query = {
-      text: `
-        SELECT 
-          projects.id, 
-          projects.name, 
-          projects.status, 
-          projects.notes, 
-          projects.client_id, 
-          projects.vendor_id, 
-          transactions.id as transaction_id, 
-          transactions.status as status_transaction, 
-          transactions.price, 
-          transactions.tax, 
-          transactions.amount
-        FROM projects 
-        inner join transactions on projects.transaction_id=transactions.id
-        WHERE projects.client_id = $1`,
-      values: [id],
-    };
+    if(role === 'client'){
+      var query = {
+        text: `
+          SELECT 
+            projects.id, 
+            projects.name, 
+            projects.status, 
+            projects.notes, 
+            projects.client_id, 
+            projects.vendor_id, 
+            transactions.id as transaction_id, 
+            transactions.status as status_transaction, 
+            transactions.price, 
+            transactions.tax, 
+            transactions.amount
+          FROM projects 
+          inner join transactions on projects.transaction_id=transactions.id
+          WHERE projects.client_id = $1`,
+        values: [id],
+      };
+    }else{
+      var query = {
+        text: `
+          SELECT 
+            projects.id, 
+            projects.name, 
+            projects.status, 
+            projects.notes, 
+            projects.client_id, 
+            projects.vendor_id, 
+            transactions.id as transaction_id, 
+            transactions.status as status_transaction, 
+            transactions.price, 
+            transactions.tax, 
+            transactions.amount
+          FROM projects 
+          inner join transactions on projects.transaction_id=transactions.id
+          WHERE projects.vendor_id = $1`,
+        values: [id],
+      };
+    }
 
     const result = await db.query(query);
     return result;

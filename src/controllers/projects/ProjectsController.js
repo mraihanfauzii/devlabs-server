@@ -110,6 +110,7 @@ class ProjectsController {
   }
 
   async getProjectsByUserId(req, res) {
+    const role = req.user.role
     const payload = { user_id: req.user.id };
     const validatedPayload = validator.validatePayload(projectsSchema.getProjectsByUserId, payload);
     if (validatedPayload.error) {
@@ -120,7 +121,7 @@ class ProjectsController {
       });
     }
 
-    const projects = await this.projectsRepository.getProjectsByUserId({ id: validatedPayload.data.user_id });
+    const projects = await this.projectsRepository.getProjectsByUserId({ id: validatedPayload.data.user_id }, role);
 
     if (projects.error) {
       return res.status(404).json({
