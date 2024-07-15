@@ -12,7 +12,10 @@ const projectsController = new ProjectsController(projectsRepository, usersRepos
 
 router.post('/', authMiddleware, (req, res) => projectsController.addProject(req, res));
 router.put('/:id/accept-project', authMiddleware, (req, res) => projectsController.accProject(req, res));
+router.put('/:id/check-project', authMiddleware, (req, res) => projectsController.checkProject(req, res));
+router.put('/:id/finish-project', authMiddleware, (req, res) => projectsController.checkProject(req, res));
 router.get('/', authMiddleware, (req, res) => projectsController.getProjectsByUserId(req, res));
+router.get('/:id', authMiddleware, (req, res) => projectsController.getProjectsById(req, res));
 router.delete('/:id', authMiddleware, (req, res) => projectsController.deleteProjectById(req, res));
 
 module.exports = router;

@@ -7,8 +7,29 @@ class TransactionsController {
     this.projectsRepository = projectsRepository;
   }
 
-  async addTransaction(req, res) {
+  async payBillTransactions(req, res) {
     const payload = { ...req.body };
+    const {id} = req.params
+    const result = await this.transactionsRepository.payBillTransactions(id, payload);
+
+    if (result.error) {
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to pay the bill',
+        code: 500,
+      });
+    }
+    return res.status(200).send({
+      success: true,
+      message: 'Transaction pay',
+      code: 200,
+      data: result.data,
+    });
+  }
+
+  async addTransaction(req, res) {
+    const payload = { ...req.body};
+    const { id } = req.params
     const validatedPayload = validator.validatePayload(transactionsSchema.addTransaction, payload);
     if (validatedPayload.error) {
       return res.status(400).json({
@@ -18,7 +39,8 @@ class TransactionsController {
       });
     }
 
-    const isProjectExist = await this.projectsRepository.getProjectById({ id: validatedPayload.data.project_id });
+    const isProjectExist = await this.projectsRepository.getProjectById({ id: id });
+
     if (isProjectExist.error) {
       return res.status(404).json({
         success: false,
@@ -26,8 +48,8 @@ class TransactionsController {
         code: 404,
       });
     }
-
-    const result = await this.transactionsRepository.addTransaction(validatedPayload.data);
+    
+    const result = await this.transactionsRepository.addTransaction(id, validatedPayload.data);
 
     if (result.error) {
       return res.status(500).json({

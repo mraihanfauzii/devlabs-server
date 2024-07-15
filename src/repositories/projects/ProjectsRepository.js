@@ -1,39 +1,57 @@
 const db = require('../../configs/databases/postgres/db');
 
-class TransactionsRepository {
+class projectsRepository {
+
+  // Customer Section
+
   async addProject(data) {
-    const { client_id, vendor_id, name } = data;
+    const { client_id, vendor_id, name, notes } = data;
 
     const query = {
       text: `
-        INSERT INTO projects (client_id, vendor_id, status, name)
-        VALUES ($1, $2, $3, $4)
+        INSERT INTO projects (client_id, vendor_id, status, name, notes)
+        VALUES ($1, $2, $3, $4, $5)
         RETURNING id`,
-      values: [client_id, vendor_id, 'Menunggu konfirmasi', name],
+      values: [client_id, vendor_id, 'Menunggu konfirmasi', name, notes],
     };
 
     const result = await db.command(query);
     return result;
   }
 
-  async accProject(data) {
+  async finishPaymentProject(data) {
     const  id  = data;
     const query = {
       text: `
         UPDATE projects
         SET status = $1
         WHERE id = $2`,
-      values: ['Pembayaran', id],
+      values: ['Pengerjaan', id],
     };
+
     const result = await db.query(query);
     return result;
   }
   
   async getProjectsByUserId(data) {
     const { id } = data;
-
     const query = {
-      text: 'SELECT * FROM projects WHERE client_id = $1',
+      text: `
+        SELECT 
+          projects.id, 
+          projects.name, 
+          projects.status, 
+          projects.notes, 
+          projects.client_id, 
+          projects.vendor_id, 
+          transactions.id as transaction_id, 
+          transactions.status as status_transaction, 
+          transactions.price, 
+          transactions.tax, 
+          transactions.amount
+        FROM projects 
+        inner join transactions on projects.transaction_id=transactions.id
+        WHERE projects.client_id = $1`,
       values: [id],
     };
 
@@ -53,17 +71,77 @@ class TransactionsRepository {
     return result;
   }
 
-  async getProjectById(data) {
+  async getProjectsById(data) {
     const { id } = data;
-
     const query = {
-      text: 'SELECT * FROM projects WHERE id = $1',
+      text: `
+        SELECT 
+          projects.id, 
+          projects.name, 
+          projects.status, 
+          projects.notes, 
+          projects.client_id, 
+          projects.vendor_id, 
+          transactions.id as transaction_id, 
+          transactions.status as status_transaction, 
+          transactions.price, 
+          transactions.tax, 
+          transactions.amount
+        FROM projects 
+        inner join transactions on projects.transaction_id=transactions.id
+        WHERE projects.id = $1`,
       values: [id],
     };
 
     const result = await db.query(query);
+    console.log(id)
+    console.log(result)
+    return result;
+  }
+
+  async finishProject(data) {
+    const  id  = data;
+    const query = {
+      text: `
+        UPDATE projects
+        SET status = $1
+        WHERE id = $2`,
+      values: ['Selesai', id],
+    };
+    const result = await db.query(query);
+
+    return result;
+  }
+
+  // Vendor Section
+
+  async accProject(data) {
+    const  id  = data;
+    const query = {
+      text: `
+        UPDATE projects
+        SET status = $1
+        WHERE id = $2`,
+      values: ['Pembayaran', id],
+    };
+    const result = await db.query(query);
+
+    return result;
+  }
+
+  async checkProject(data) {
+    const  id  = data;
+    const query = {
+      text: `
+        UPDATE projects
+        SET status = $1
+        WHERE id = $2`,
+      values: ['Pengecekan', id],
+    };
+    const result = await db.query(query);
+
     return result;
   }
 }
 
-module.exports = TransactionsRepository;
+module.exports = projectsRepository;

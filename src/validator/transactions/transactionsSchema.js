@@ -1,8 +1,7 @@
 const Joi = require('joi');
 
 const addTransaction = Joi.object({
-  project_id: Joi.string().required(),
-  payment_method: Joi.string().required(),
+  price: Joi.number().positive().required(),
 });
 
 const getTransactionById = Joi.object({
