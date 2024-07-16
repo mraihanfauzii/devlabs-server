@@ -54,6 +54,9 @@ class PortofoliosController {
 
     const result = await this.portofoliosRepository.createPortofolio(validatedPayload.data);
     if (result.error) {
+      for (const attachment of attachments) {
+        await this.storageRepository.deleteFile(attachment.fileName, 'portofolio_attachments');
+      }
       return res.status(500).json({
         success: false,
         message: 'Failed to create portofolio',

@@ -58,7 +58,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"sus@gmail.com\",\r\n    \"password\": \"12345678\",\r\n    \"role\": \"architect\"\r\n}",
+							"raw": "{\r\n    \"email\": \"client@gmail.com\",\r\n    \"password\": \"12345678\",\r\n    \"role\": \"client\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -321,8 +321,8 @@
 									"key": "attachment_files",
 									"type": "file",
 									"src": [
-										"/C:/Users/Rieza/Pictures/1 99kbd9v5SEnx21DrPBRa_g.jpeg",
-										"/C:/Users/Rieza/Pictures/1.png"
+										"/C:/Users/Rieza/Pictures/meme/6g2gr6.jpg",
+										"/C:/Users/Rieza/Pictures/meme/6g2gr6.jpg"
 									]
 								}
 							]
@@ -357,7 +357,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{DOMAIN}}/api/v1/portofolios/03f73d41-fc4d-43f0-b3e5-5158c49d1d74",
+							"raw": "{{DOMAIN}}/api/v1/portofolios/bb9b4303-018b-4b4a-8e9c-2c5f6e91abae",
 							"host": [
 								"{{DOMAIN}}"
 							],
@@ -365,7 +365,7 @@
 								"api",
 								"v1",
 								"portofolios",
-								"03f73d41-fc4d-43f0-b3e5-5158c49d1d74"
+								"bb9b4303-018b-4b4a-8e9c-2c5f6e91abae"
 							]
 						}
 					},
@@ -416,7 +416,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{DOMAIN}}/api/v1/portofolios/926e0a72-0996-4cd4-9407-ba1aeb541c4b",
+							"raw": "{{DOMAIN}}/api/v1/portofolios/3d0dfd46-1f2f-4f6a-953b-b0b9f11d4f33",
 							"host": [
 								"{{DOMAIN}}"
 							],
@@ -424,7 +424,167 @@
 								"api",
 								"v1",
 								"portofolios",
-								"926e0a72-0996-4cd4-9407-ba1aeb541c4b"
+								"3d0dfd46-1f2f-4f6a-953b-b0b9f11d4f33"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Ratings",
+			"item": [
+				{
+					"name": "Create New Rating",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "ratee_id",
+									"value": "79f27fb1-1598-4848-843b-99f0dd8369ce",
+									"type": "text"
+								},
+								{
+									"key": "rating",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "test description",
+									"type": "text"
+								},
+								{
+									"key": "attachment_files",
+									"type": "file",
+									"src": "/C:/Users/Rieza/Pictures/meme/6g2gr6.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/ratings",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"ratings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Rating By Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/ratings/df075349-2f3a-4240-ac1b-e4ef97c439c9",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"ratings",
+								"df075349-2f3a-4240-ac1b-e4ef97c439c9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Ratings By Ratee Id",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Get Ratings By Rater Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/ratings/rater/089469f2-7f2b-489e-a712-2ef772741f03",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"ratings",
+								"rater",
+								"089469f2-7f2b-489e-a712-2ef772741f03"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Ratee Average Rating",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/ratings/ratee/79f27fb1-1598-4848-843b-99f0dd8369ce/average",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"ratings",
+								"ratee",
+								"79f27fb1-1598-4848-843b-99f0dd8369ce",
+								"average"
 							]
 						}
 					},
@@ -465,6 +625,12 @@
 			"key": "TOKEN",
 			"value": "",
 			"type": "string"
+		},
+		{
+			"key": "DOMAIN",
+			"value": "https://bumpy-insects-reply-yearly.a276.dcdg.xyz",
+			"type": "string",
+			"disabled": true
 		}
 	]
 }
