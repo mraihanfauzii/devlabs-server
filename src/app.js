@@ -8,6 +8,7 @@ const projectsRouter = require('./routes/projects');
 const transactionsRouter = require('./routes/transactions');
 const paymentRouter = require('./routes/payments');
 const portofolioRouter = require('./routes/portofolios');
+const ratingsRouter = require('./routes/ratings');
 
 const morganMiddleware = require('./middlewares/morganMiddleware');
 
@@ -28,6 +29,7 @@ app.use(`${BASE_URL}/v1/projects`, projectsRouter);
 app.use(`${BASE_URL}/v1/transactions`, transactionsRouter);
 app.use(`${BASE_URL}/v1/payments`, paymentRouter);
 app.use(`${BASE_URL}/v1/portofolios`, portofolioRouter);
+app.use(`${BASE_URL}/v1/ratings`, ratingsRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
