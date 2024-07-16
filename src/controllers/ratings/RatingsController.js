@@ -110,6 +110,11 @@ class RatingsController {
       });
     }
 
+    for (const rating of result.data) {
+      const attachments = await this.ratingAttachmentsRepository.getRatingAttachmentsByRatingId({ rating_id: rating.id });
+      rating.attachments = attachments.data;
+    }
+
     const mappedData = result.data.map((rating) => ({
       id: rating.id,
       rater: rating.rater_id ? {
@@ -125,6 +130,7 @@ class RatingsController {
       rating: rating.rating,
       description: rating.description,
       created_at: rating.created_at,
+      attachments: rating.attachments,
     }));
 
     return res.status(200).json({
@@ -136,7 +142,7 @@ class RatingsController {
   }
 
   async getRatingsByRaterId(req, res) {
-    const payload = { rater_id: req.user.id };
+    const payload = { ...req.params };
     const validatedPayload = validator.validatePayload(ratingsSchema.getRatingsByRaterId, payload);
     if (validatedPayload.error) {
       return res.status(400).json({
@@ -148,11 +154,16 @@ class RatingsController {
 
     const result = await this.ratingsRepository.getRatingsByRaterId(validatedPayload.data);
     if (result.error) {
-      return res.status(500).json({
+      return res.status(404).json({
         success: false,
-        message: 'Failed to get ratings',
-        code: 500,
+        message: 'Ratings not found',
+        code: 404,
       });
+    }
+
+    for (const rating of result.data) {
+      const attachments = await this.ratingAttachmentsRepository.getRatingAttachmentsByRatingId({ rating_id: rating.id });
+      rating.attachments = attachments.data;
     }
 
     const mappedData = result.data.map((rating) => ({
@@ -170,6 +181,7 @@ class RatingsController {
       rating: rating.rating,
       description: rating.description,
       created_at: rating.created_at,
+      attachments: rating.attachments,
     }));
 
     return res.status(200).json({

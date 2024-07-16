@@ -320,7 +320,10 @@
 								{
 									"key": "attachment_files",
 									"type": "file",
-									"src": "/C:/Users/Rieza/Pictures/meme/6g2gr6.jpg"
+									"src": [
+										"/C:/Users/Rieza/Pictures/meme/6g2gr6.jpg",
+										"/C:/Users/Rieza/Pictures/capy.png"
+									]
 								}
 							]
 						},
@@ -384,7 +387,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{DOMAIN}}/api/v1/portofolios",
+							"raw": "{{DOMAIN}}/api/v1/portofolios?architect_id=79f27fb1-1598-4848-843b-99f0dd8369ce",
 							"host": [
 								"{{DOMAIN}}"
 							],
@@ -392,6 +395,12 @@
 								"api",
 								"v1",
 								"portofolios"
+							],
+							"query": [
+								{
+									"key": "architect_id",
+									"value": "79f27fb1-1598-4848-843b-99f0dd8369ce"
+								}
 							]
 						}
 					},
