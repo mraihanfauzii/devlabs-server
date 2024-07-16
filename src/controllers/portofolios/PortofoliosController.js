@@ -119,7 +119,7 @@ class PortofoliosController {
   }
 
   async getUserPortofolios(req, res) {
-    const payload = { architect_id: req.user.id };
+    const payload = { ...req.query };
     const validatedPayload = validator.validatePayload(portofoliosSchema.getUserPortofoliosSchema, payload);
     if (validatedPayload.error) {
       return res.status(400).json({
@@ -136,6 +136,13 @@ class PortofoliosController {
         message: 'Portofolios not found',
         code: 404,
       });
+    }
+
+    for (const portofolio of result.data) {
+      const attachments = await this.portofolioAttachmentsRepository.getPortofolioAttachmentsByPortofolioId({
+        portofolio_id: portofolio.id,
+      });
+      portofolio.attachments = attachments.data;
     }
 
     return res.status(200).json({
