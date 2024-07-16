@@ -58,7 +58,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"client@gmail.com\",\r\n    \"password\": \"12345678\",\r\n    \"role\": \"client\"\r\n}",
+							"raw": "// {\r\n//     \"email\": \"client@gmail.com\",\r\n//     \"password\": \"12345678\",\r\n//     \"role\": \"client\"\r\n// }\r\n{\r\n    \"email\": \"architect@gmail.com\",\r\n    \"password\": \"12345678\",\r\n    \"role\": \"architect\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -320,10 +320,7 @@
 								{
 									"key": "attachment_files",
 									"type": "file",
-									"src": [
-										"/C:/Users/Rieza/Pictures/meme/6g2gr6.jpg",
-										"/C:/Users/Rieza/Pictures/meme/6g2gr6.jpg"
-									]
+									"src": "/C:/Users/Rieza/Pictures/meme/6g2gr6.jpg"
 								}
 							]
 						},
@@ -357,7 +354,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{DOMAIN}}/api/v1/portofolios/bb9b4303-018b-4b4a-8e9c-2c5f6e91abae",
+							"raw": "{{DOMAIN}}/api/v1/portofolios/78816fa0-c3be-4bf0-8f27-9b93a4b61937",
 							"host": [
 								"{{DOMAIN}}"
 							],
@@ -365,7 +362,7 @@
 								"api",
 								"v1",
 								"portofolios",
-								"bb9b4303-018b-4b4a-8e9c-2c5f6e91abae"
+								"78816fa0-c3be-4bf0-8f27-9b93a4b61937"
 							]
 						}
 					},
@@ -505,7 +502,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{DOMAIN}}/api/v1/ratings/df075349-2f3a-4240-ac1b-e4ef97c439c9",
+							"raw": "{{DOMAIN}}/api/v1/ratings/1a07e99b-3a14-4abd-b66f-733647d78508",
 							"host": [
 								"{{DOMAIN}}"
 							],
@@ -513,7 +510,7 @@
 								"api",
 								"v1",
 								"ratings",
-								"df075349-2f3a-4240-ac1b-e4ef97c439c9"
+								"1a07e99b-3a14-4abd-b66f-733647d78508"
 							]
 						}
 					},
@@ -522,8 +519,31 @@
 				{
 					"name": "Get Ratings By Ratee Id",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/ratings/ratee/79f27fb1-1598-4848-843b-99f0dd8369ce",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"ratings",
+								"ratee",
+								"79f27fb1-1598-4848-843b-99f0dd8369ce"
+							]
+						}
 					},
 					"response": []
 				},
@@ -585,6 +605,88 @@
 								"ratee",
 								"79f27fb1-1598-4848-843b-99f0dd8369ce",
 								"average"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Messages",
+			"item": [
+				{
+					"name": "Create New Message",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"receiver_id\": \"089469f2-7f2b-489e-a712-2ef772741f03\",\r\n    \"message\": \"test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/messages",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"messages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Messages Between Users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/messages?first_user_id=089469f2-7f2b-489e-a712-2ef772741f03&second_user_id=79f27fb1-1598-4848-843b-99f0dd8369ce",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"messages"
+							],
+							"query": [
+								{
+									"key": "first_user_id",
+									"value": "089469f2-7f2b-489e-a712-2ef772741f03"
+								},
+								{
+									"key": "second_user_id",
+									"value": "79f27fb1-1598-4848-843b-99f0dd8369ce"
+								}
 							]
 						}
 					},
