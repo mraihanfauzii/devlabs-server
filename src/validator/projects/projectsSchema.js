@@ -4,6 +4,7 @@ const addProject = Joi.object({
   client_id: Joi.string().required(),
   vendor_id: Joi.string().required(),
   name: Joi.string().required(),
+  notes: Joi.string().required(),
 });
 
 const getProjectsByUserId = Joi.object({

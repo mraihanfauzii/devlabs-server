@@ -26,6 +26,8 @@ class PaymentsRepository {
         const result = await db.query(query);
         return result;
     }
+
+    
 } 
 module.exports = PaymentsRepository;
   

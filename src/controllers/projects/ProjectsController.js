@@ -47,7 +47,70 @@ class ProjectsController {
     });
   }
 
+  async accProject(req, res) {
+    const { id } = req.params
+
+    const result = await this.projectsRepository.accProject(id);
+
+    if (result.error) {
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to accept project',
+        code: 500,
+      });
+    }
+
+    return res.status(201).json({
+      success: true,
+      message: 'Project succesfully accepted',
+      code: 201,
+      data: result,
+    });
+  }
+
+  async checkProject(req, res) {
+    const { id } = req.params
+
+    const result = await this.projectsRepository.checkProject(id);
+
+    if (result.error) {
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to check project',
+        code: 500,
+      });
+    }
+
+    return res.status(201).json({
+      success: true,
+      message: 'Project check',
+      code: 201,
+      data: result,
+    });
+  }
+  async finishProject(req, res) {
+    const { id } = req.params
+
+    const result = await this.projectsRepository.finishProject(id);
+
+    if (result.error) {
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to finish project',
+        code: 500,
+      });
+    }
+
+    return res.status(201).json({
+      success: true,
+      message: 'Project finish',
+      code: 201,
+      data: result,
+    });
+  }
+
   async getProjectsByUserId(req, res) {
+    const role = req.user.role
     const payload = { user_id: req.user.id };
     const validatedPayload = validator.validatePayload(projectsSchema.getProjectsByUserId, payload);
     if (validatedPayload.error) {
@@ -58,7 +121,7 @@ class ProjectsController {
       });
     }
 
-    const projects = await this.projectsRepository.getProjectsByUserId({ id: validatedPayload.data.user_id });
+    const projects = await this.projectsRepository.getProjectsByUserId({ id: validatedPayload.data.user_id }, role);
 
     if (projects.error) {
       return res.status(404).json({
@@ -120,6 +183,27 @@ class ProjectsController {
       success: true,
       message: 'Project successfully deleted',
       code: 200,
+    });
+  }
+
+  async getProjectsById(req, res) {
+    const {id } = req.params
+    
+    const projects = await this.projectsRepository.getProjectsById({ id: id });
+    
+    if (projects.error) {
+      return res.status(404).json({
+        success: false,
+        message: 'Projects not found',
+        code: 404,
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'All projects successfully fetched',
+      code: 200,
+      data: projects.data,
     });
   }
 }
