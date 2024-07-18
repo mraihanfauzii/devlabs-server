@@ -10,7 +10,11 @@ class PortofoliosController {
   }
 
   async createPortofolio(req, res) {
-    const payload = { ...req.body, attachment_files: req.files, architect_id: req.user.id };
+    const payload = {
+      ...req.body,
+      attachment_files: req.files.filter((file) => file.fieldname === 'attachment_files'),
+      architect_id: req.user.id,
+    };
     const validatedPayload = validator.validatePayload(portofoliosSchema.createPortofolioSchema, payload);
     if (validatedPayload.error) {
       return res.status(400).json({

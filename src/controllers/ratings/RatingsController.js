@@ -10,7 +10,11 @@ class RatingsController {
   }
 
   async createRating(req, res) {
-    const payload = { ...req.body, attachment_files: req.files, rater_id: req.user.id };
+    const payload = {
+      ...req.body,
+      attachment_files: req.files.filter((file) => file.fieldname === 'attachment_files'),
+      rater_id: req.user.id,
+    };
     const validatedPayload = validator.validatePayload(ratingsSchema.createRating, payload);
     if (validatedPayload.error) {
       return res.status(400).json({

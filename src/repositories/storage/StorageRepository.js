@@ -37,8 +37,10 @@ class StorageRepository {
       const filePath = path.join(this.baseDir, folder, fileName);
       await fs.promises.unlink(filePath);
       logger.info(`Deleted file: ${filePath}`);
+      return true;
     } catch (err) {
       logger.error('Error deleting file:', err);
+      return false;
     }
   }
 }
