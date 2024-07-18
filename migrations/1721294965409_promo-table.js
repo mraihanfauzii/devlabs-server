@@ -9,7 +9,7 @@ exports.shorthands = undefined;
  * @returns {Promise<void> | void}
  */
 exports.up = (pgm) => {
-    gm.createTable('banks', {
+    pgm.createTable('promos', {
         id: {
           type: 'uuid',
           primaryKey: true,
@@ -28,6 +28,10 @@ exports.up = (pgm) => {
           default: pgm.func('current_timestamp'),
         },
       });
+      pgm.sql(`
+        INSERT INTO promos (name, img) VALUES
+        ('Diskom desember', 'ini linknya')
+  `);
 };
 
 /**
@@ -35,4 +39,4 @@ exports.up = (pgm) => {
  * @param run {() => void | undefined}
  * @returns {Promise<void> | void}
  */
-exports.down = (pgm) => {};
+exports.down = (pgm) => {promos};
