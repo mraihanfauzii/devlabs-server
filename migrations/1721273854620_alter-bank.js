@@ -12,7 +12,7 @@ exports.up = (pgm) => {
     pgm.addColumns('banks', {
         img: {
             type: 'varchar(100)'
-          },
+        },
     });
 };
 
@@ -21,4 +21,6 @@ exports.up = (pgm) => {
  * @param run {() => void | undefined}
  * @returns {Promise<void> | void}
  */
-exports.down = (pgm) => {};
+exports.down = (pgm) => {
+    pgm.dropColumns('banks', 'img');
+};
