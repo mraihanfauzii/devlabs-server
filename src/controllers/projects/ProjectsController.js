@@ -9,17 +9,19 @@ class ProjectsController {
 
   async addProject(req, res) {
     const payload = { ...req.body };
+    const vendor_id = req.params
     payload.client_id = req.user.id;
-    const validatedPayload = validator.validatePayload(projectsSchema.addProject, payload);
+    /* const validatedPayload = validator.validatePayload(projectsSchema.addProject, payload);
     if (validatedPayload.error) {
       return res.status(400).json({
         success: false,
         message: validatedPayload.error,
         code: 400,
       });
-    }
+    } */
 
-    const isUserExist = await this.usersRepository.getUserById({ id: validatedPayload.data.vendor_id });
+    //const isUserExist = await this.usersRepository.getUserById({ id: validatedPayload.data.vendor_id });
+    const isUserExist = await this.usersRepository.getUserById({ id: payload.client_id });
 
     if (isUserExist.error) {
       return res.status(404).json({
@@ -29,7 +31,8 @@ class ProjectsController {
       });
     }
 
-    const result = await this.projectsRepository.addProject(validatedPayload.data);
+    //const result = await this.projectsRepository.addProject(validatedPayload.data);
+    const result = await this.projectsRepository.addProject(payload, vendor_id);
 
     if (result.error) {
       return res.status(500).json({
@@ -190,6 +193,45 @@ class ProjectsController {
     const {id } = req.params
     
     const projects = await this.projectsRepository.getProjectsById({ id: id });
+    
+    if (projects.error) {
+      return res.status(404).json({
+        success: false,
+        message: 'Projects not found',
+        code: 404,
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'All projects successfully fetched',
+      code: 200,
+      data: projects.data,
+    });
+  }
+  async addStatusByProjectId(req, res) {
+    const {id} = req.params
+    const payload = { ...req.body };
+    const projects = await this.projectsRepository.addStatusByProjectId(payload, { id: id });
+    
+    if (projects.error) {
+      return res.status(404).json({
+        success: false,
+        message: 'Projects not found',
+        code: 404,
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'All projects successfully fetched',
+      code: 200,
+      data: projects.data,
+    });
+  }
+  async getStatusByProjectId(req, res) {
+    const {id} = req.params
+    const projects = await this.projectsRepository.addStatusByProjectId({ id: id });
     
     if (projects.error) {
       return res.status(404).json({

@@ -9,13 +9,11 @@ exports.shorthands = undefined;
  * @returns {Promise<void> | void}
  */
 exports.up = (pgm) => {
-    pgm.addColumns('projects', {
-        detail_id: {
-            type: 'uuid'
+    pgm.addColumns('banks', {
+        img: {
+            type: 'varchar(100)'
         },
     });
-    pgm.addConstraint('projects', 'fk_detail', 'FOREIGN KEY(detail_id) REFERENCES projectdetail(id) ON DELETE SET NULL');
-    pgm.dropColumns('projects', 'notes')
 };
 
 /**
@@ -24,12 +22,5 @@ exports.up = (pgm) => {
  * @returns {Promise<void> | void}
  */
 exports.down = (pgm) => {
-    pgm.dropConstraint('projects', 'fk_detail');
-    pgm.dropColumns('projects', 'detail_id');
-    pgm.addColumns('projects', {
-        notes: {
-            type: 'text',
-            notNull: true,
-        }
-    });
+    pgm.dropColumns('banks', 'img');
 };

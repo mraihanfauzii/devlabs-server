@@ -38,8 +38,8 @@ class TransactionsController {
         code: 400,
       });
     }
-
-    const isProjectExist = await this.projectsRepository.getProjectById({ id: id });
+    
+    const isProjectExist = await this.projectsRepository.getProjectsById({ id: id });
 
     if (isProjectExist.error) {
       return res.status(404).json({
