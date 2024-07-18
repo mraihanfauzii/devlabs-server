@@ -7,7 +7,11 @@ class TransactionsRepository {
     const { id } = data;
 
     const query = {
-      text: 'SELECT * FROM transactions WHERE id = $1',
+      text: `
+        SELECT transactions.*
+        FROM transactions
+        LEFT JOIN projects ON transactions.id = projects.transaction_id
+        WHERE projects.id = $1`,
       values: [id],
     };
 
@@ -16,27 +20,46 @@ class TransactionsRepository {
   }
 
   async payBillTransactions(id, data) {
-    console.log(id, data.payment_method)
+    console.log(id)
+    const getTransactionId = {
+      text: `
+        SELECT transaction_id
+        FROM projects
+        WHERE id = $1`,
+      values: [id],
+    };
+    const TransactionId = await db.query(getTransactionId);
+    console.log(">>",TransactionId.data[0].transaction_id)
+
     const query = {
         text: `
           UPDATE transactions
           SET status = $1, payment_method=$2
           WHERE id = $3
           RETURNING *`,
-        values: ['Telah dibayar', data.payment_method, id],
+        values: ['Telah dibayar', data.payment_method, TransactionId.data[0].transaction_id],
     };
+    
+
     const query1 = {
         text: `
           UPDATE projects
           SET status = $1
-          WHERE transaction_id = $2
+          WHERE id = $2
           RETURNING *`,
         values: ['Pengerjaan', id],
     };
-
-    await db.query(query);
     const result = await db.query(query1);
-    console.log(result)
+
+    const query2 = {
+      text: `
+        INSERT INTO status_detail (project_id, name, "desc")
+        VALUES ($1, $2, $3)
+        RETURNING *`,
+      values: [id, "Transaksi selesai", "Pengerjaan akan segera dilakukan"],
+    };
+    await db.command(query2);
+
     return result;
   }
 
