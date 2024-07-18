@@ -1,8 +1,8 @@
 const db = require('../../configs/databases/postgres/db');
 
-class promoRepository {  
+class PromoRepository {  
     async getPromo() {
-
+        console.log("first")
       const query = {
         text: `
             SELECT *
@@ -13,5 +13,5 @@ class promoRepository {
       return result;
     }
 }
-module.exports = promoRepository;
+module.exports = PromoRepository;
   
