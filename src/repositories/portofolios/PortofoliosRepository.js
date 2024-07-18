@@ -21,9 +21,17 @@ class PortofoliosRepository {
 
     const query = {
       text: `
-        SELECT *
-        FROM portofolios
-        WHERE architect_id = $1`,
+        SELECT
+          p.id,
+          p.architect_id,
+          u.profile_name AS architect_name,
+          u.profile_picture AS architect_picture,
+          p.name,
+          p.description,
+          p.created_at
+        FROM portofolios p
+        LEFT JOIN users u ON p.architect_id = u.id
+        WHERE p.architect_id = $1`,
       values: [architect_id],
     };
 
@@ -36,9 +44,17 @@ class PortofoliosRepository {
 
     const query = {
       text: `
-        SELECT *
-        FROM portofolios
-        WHERE id = $1`,
+        SELECT
+          p.id,
+          p.architect_id,
+          u.profile_name AS architect_name,
+          u.profile_picture AS architect_picture,
+          p.name,
+          p.description,
+          p.created_at
+        FROM portofolios p
+        LEFT JOIN users u ON p.architect_id = u.id
+        WHERE p.id = $1`,
       values: [id],
     };
 
