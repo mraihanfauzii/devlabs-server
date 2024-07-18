@@ -10,7 +10,11 @@ class RatingsController {
   }
 
   async createRating(req, res) {
-    const payload = { ...req.body, attachment_files: req.files, rater_id: req.user.id };
+    const payload = {
+      ...req.body,
+      attachment_files: req.files.filter((file) => file.fieldname === 'attachment_files'),
+      rater_id: req.user.id,
+    };
     const validatedPayload = validator.validatePayload(ratingsSchema.createRating, payload);
     if (validatedPayload.error) {
       return res.status(400).json({
@@ -266,7 +270,9 @@ class RatingsController {
       success: true,
       message: 'Ratee average rating retrieved',
       code: 200,
-      data: result.data[0],
+      data: {
+        average_rating: parseFloat(result.data[0].average_rating),
+      },
     });
   }
 }

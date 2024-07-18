@@ -10,7 +10,11 @@ class PortofoliosController {
   }
 
   async createPortofolio(req, res) {
-    const payload = { ...req.body, attachment_files: req.files, architect_id: req.user.id };
+    const payload = {
+      ...req.body,
+      attachment_files: req.files.filter((file) => file.fieldname === 'attachment_files'),
+      architect_id: req.user.id,
+    };
     const validatedPayload = validator.validatePayload(portofoliosSchema.createPortofolioSchema, payload);
     if (validatedPayload.error) {
       return res.status(400).json({
@@ -106,7 +110,15 @@ class PortofoliosController {
     });
 
     const mappedData = {
-      ...result.data[0],
+      id: result.data[0].id,
+      architect: result.data[0].architect_id ? {
+        id: result.data[0].architect_id,
+        name: result.data[0].architect_name,
+        picture: result.data[0].architect_picture,
+      } : null,
+      name: result.data[0].name,
+      description: result.data[0].description,
+      created_at: result.data[0].created_at,
       attachments: attachments.data,
     };
 
@@ -145,11 +157,24 @@ class PortofoliosController {
       portofolio.attachments = attachments.data;
     }
 
+    const mappedData = result.data.map((portofolio) => ({
+      id: portofolio.id,
+      architect: portofolio.architect_id ? {
+        id: portofolio.architect_id,
+        name: portofolio.architect_name,
+        picture: portofolio.architect_picture,
+      } : null,
+      name: portofolio.name,
+      description: portofolio.description,
+      created_at: portofolio.created_at,
+      attachments: portofolio.attachments,
+    }));
+
     return res.status(200).json({
       success: true,
       message: 'Portofolios found',
       code: 200,
-      data: result.data,
+      data: mappedData,
     });
   }
 

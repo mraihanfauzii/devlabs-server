@@ -14,7 +14,16 @@ const loginUser = Joi.object({
   role: Joi.string().required().valid('admin', 'client', 'architect', 'builder'),
 });
 
+const updateUserProfile = Joi.object({
+  id: Joi.string().required(),
+  profile_name: Joi.string().required(),
+  profile_picture: Joi.array().max(1),
+  profile_description: Joi.string().required(),
+  phonenumber: Joi.string().required(),
+});
+
 module.exports = {
   registerUser,
   loginUser,
+  updateUserProfile,
 };
