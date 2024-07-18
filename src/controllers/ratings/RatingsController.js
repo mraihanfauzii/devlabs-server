@@ -270,7 +270,9 @@ class RatingsController {
       success: true,
       message: 'Ratee average rating retrieved',
       code: 200,
-      data: result.data[0],
+      data: {
+        average_rating: parseFloat(result.data[0].average_rating),
+      },
     });
   }
 }

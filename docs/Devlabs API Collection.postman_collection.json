@@ -96,6 +96,36 @@
 						"method": "GET",
 						"header": [],
 						"url": {
+							"raw": "{{DOMAIN}}/api/v1/users/list",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User By Token",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
 							"raw": "{{DOMAIN}}/api/v1/users",
 							"host": [
 								"{{DOMAIN}}"
@@ -104,6 +134,81 @@
 								"api",
 								"v1",
 								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "profile_name",
+									"value": "edited architect",
+									"type": "text"
+								},
+								{
+									"key": "profile_description",
+									"value": "im best architect",
+									"type": "text"
+								},
+								{
+									"key": "phonenumber",
+									"value": "02223214",
+									"type": "text"
+								},
+								{
+									"key": "profile_picture",
+									"type": "file",
+									"src": "/C:/Users/Rieza/Pictures/meme/2cuz39m1jm471.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/users",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Profile Photo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/users/profile-pictures/1721268277151_2cuz39m1jm471.jpg",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"profile-pictures",
+								"1721268277151_2cuz39m1jm471.jpg"
 							]
 						}
 					},
@@ -407,6 +512,27 @@
 					"response": []
 				},
 				{
+					"name": "Get Portofolio Attachment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/portofolios/attachments/1721138616849_capy.png",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"portofolios",
+								"attachments",
+								"1721138616849_capy.png"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Delete Portofolio By Id",
 					"request": {
 						"auth": {
@@ -466,7 +592,7 @@
 								},
 								{
 									"key": "rating",
-									"value": "5",
+									"value": "2",
 									"type": "text"
 								},
 								{
@@ -477,7 +603,8 @@
 								{
 									"key": "attachment_files",
 									"type": "file",
-									"src": "/C:/Users/Rieza/Pictures/meme/6g2gr6.jpg"
+									"src": "/C:/Users/Rieza/Pictures/meme/6g2gr6.jpg",
+									"disabled": true
 								}
 							]
 						},
@@ -614,6 +741,27 @@
 								"ratee",
 								"79f27fb1-1598-4848-843b-99f0dd8369ce",
 								"average"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Rating Attachment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/ratings/attachments/1721115047780_6g2gr6.jpg",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"ratings",
+								"attachments",
+								"1721115047780_6g2gr6.jpg"
 							]
 						}
 					},
