@@ -61,6 +61,22 @@ class UsersRepository {
     const result = await db.query(query);
     return result;
   }
+
+  async updateUserProfile(data) {
+    const { id, profile_name, profile_picture, profile_description, phonenumber } = data;
+
+    const query = {
+      text: `
+        UPDATE users
+        SET profile_name = $1, profile_picture = $2, profile_description = $3, phonenumber = $4
+        WHERE id = $5
+        RETURNING id`,
+      values: [profile_name, profile_picture, profile_description, phonenumber, id],
+    };
+
+    const result = await db.command(query);
+    return result;
+  }
 }
 
 module.exports = UsersRepository;
