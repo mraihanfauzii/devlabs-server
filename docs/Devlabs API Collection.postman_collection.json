@@ -46,7 +46,8 @@
 							"script": {
 								"exec": [
 									"const responseJson = pm.response.json()\r",
-									"pm.collectionVariables.set('TOKEN', responseJson.data.accessToken)"
+									"pm.collectionVariables.set('TOKEN', responseJson.data.accessToken)\r",
+									"pm.collectionVariables.set('REFRESH_TOKEN', responseJson.data.refreshToken)"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -194,6 +195,49 @@
 					"response": []
 				},
 				{
+					"name": "Refresh Access Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json()\r",
+									"pm.collectionVariables.set('TOKEN', responseJson.data.accessToken)\r",
+									"pm.collectionVariables.set('REFRESH_TOKEN', responseJson.data.refreshToken)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"token\": \"{{REFRESH_TOKEN}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/users/refresh-token",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"refresh-token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Get User Profile Photo",
 					"request": {
 						"method": "GET",
@@ -209,6 +253,36 @@
 								"users",
 								"profile-pictures",
 								"1721268277151_2cuz39m1jm471.jpg"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/users/logout",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"logout"
 							]
 						}
 					},
@@ -462,7 +536,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{DOMAIN}}/api/v1/portofolios/78816fa0-c3be-4bf0-8f27-9b93a4b61937",
+							"raw": "{{DOMAIN}}/api/v1/portofolios/fab35f40-778c-49a9-8806-e1680f6de5f3",
 							"host": [
 								"{{DOMAIN}}"
 							],
@@ -470,7 +544,7 @@
 								"api",
 								"v1",
 								"portofolios",
-								"78816fa0-c3be-4bf0-8f27-9b93a4b61937"
+								"fab35f40-778c-49a9-8806-e1680f6de5f3"
 							]
 						}
 					},
@@ -527,6 +601,59 @@
 								"portofolios",
 								"attachments",
 								"1721138616849_capy.png"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Portofolio By Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Test Edited",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Test Edited",
+									"type": "text"
+								},
+								{
+									"key": "attachment_files",
+									"type": "file",
+									"src": [
+										"/C:/Users/Rieza/Pictures/meme/1.1.png",
+										"/C:/Users/Rieza/Pictures/meme/0.jpg"
+									]
+								}
+							]
+						},
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/portofolios/fab35f40-778c-49a9-8806-e1680f6de5f3",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"portofolios",
+								"fab35f40-778c-49a9-8806-e1680f6de5f3"
 							]
 						}
 					},
@@ -890,6 +1017,11 @@
 			"value": "https://bumpy-insects-reply-yearly.a276.dcdg.xyz",
 			"type": "string",
 			"disabled": true
+		},
+		{
+			"key": "REFRESH_TOKEN",
+			"value": "",
+			"type": "string"
 		}
 	]
 }

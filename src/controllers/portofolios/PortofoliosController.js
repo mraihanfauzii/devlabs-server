@@ -231,6 +231,109 @@ class PortofoliosController {
       code: 200,
     });
   }
+
+  async updatePortofolioById(req, res) {
+    const payload = {
+      ...req.params,
+      ...req.body,
+      architect_id: req.user.id,
+      attachment_files: req.files.filter((file) => file.fieldname === 'attachment_files'),
+    };
+
+    const validatedPayload = validator.validatePayload(portofoliosSchema.updatePortofolio, payload);
+    if (validatedPayload.error) {
+      return res.status(400).json({
+        success: false,
+        message: validatedPayload.error,
+        code: 400,
+      });
+    }
+
+    const portofolio = await this.portofoliosRepository.getPortofolioById({ id: validatedPayload.data.id });
+    if (portofolio.error) {
+      return res.status(404).json({
+        success: false,
+        message: 'Portofolio not found',
+        code: 404,
+      });
+    }
+
+    if (portofolio.data[0].architect_id !== validatedPayload.data.architect_id) {
+      return res.status(403).json({
+        success: false,
+        message: 'Unauthorized to update portofolios not owned by you',
+        code: 403,
+      });
+    }
+
+    const attachments = [];
+
+    for (const attachment of validatedPayload.data.attachment_files) {
+      const fileData = attachment.buffer;
+      const originalFileName = attachment.originalname;
+      const timestamp = Date.now();
+      const fileName = `${timestamp}_${originalFileName}`;
+
+      const fileSaveResult = await this.storageRepository.saveFile(
+        fileData,
+        fileName,
+        'portofolio_attachments',
+        'api/v1/portofolios/attachments',
+      );
+
+      if (!fileSaveResult) {
+        for (const attachment of attachments) {
+          await this.storageRepository.deleteFile(attachment.fileName, 'portofolio_attachments');
+        }
+        return res.status(500).json({
+          success: false,
+          message: 'Failed to save file',
+          code: 500,
+        });
+      }
+
+      attachments.push({
+        fileName,
+        filePath: fileSaveResult,
+      });
+    }
+
+    const result = await this.portofoliosRepository.updatePortofolio(validatedPayload.data);
+    if (result.error) {
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to update portofolio',
+        code: 500,
+      });
+    }
+
+    const oldAttachments = await this.portofolioAttachmentsRepository.getPortofolioAttachmentsByPortofolioId({
+      portofolio_id: validatedPayload.data.id,
+    });
+
+    if (oldAttachments.data) {
+      for (const attachment of oldAttachments.data) {
+        await this.storageRepository.deleteFile(attachment.name, 'portofolio_attachments');
+        await this.portofolioAttachmentsRepository.deletePortofolioAttachmentById({ id: attachment.id });
+      }
+    }
+
+    for (const attachment of attachments) {
+      const attachmentPayload = {
+        portofolio_id: result.data[0].id,
+        name: attachment.fileName,
+        path: attachment.filePath,
+      };
+      await this.portofolioAttachmentsRepository.createPortofolioAttachment(attachmentPayload);
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'Portofolio successfully updated',
+      code: 200,
+      data: result.data[0],
+    });
+  }
 }
 
 module.exports = PortofoliosController;
