@@ -26,6 +26,7 @@ router.post('/', authMiddleware, upload.any(), (req, res) => portofoliosControll
 router.get('/', authMiddleware, (req, res) => portofoliosController.getUserPortofolios(req, res));
 router.get('/:id', authMiddleware, (req, res) => portofoliosController.getPortofolioById(req, res));
 router.delete('/:id', authMiddleware, (req, res) => portofoliosController.deletePortofolioById(req, res));
+router.put('/:id', authMiddleware, upload.any(), (req, res) => portofoliosController.updatePortofolioById(req, res));
 
 router.use('/attachments', express.static(path.join(__dirname, '../../public/portofolio_attachments')));
 
