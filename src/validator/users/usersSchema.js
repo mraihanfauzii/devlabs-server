@@ -22,8 +22,18 @@ const updateUserProfile = Joi.object({
   phonenumber: Joi.string().required(),
 });
 
+const logout = Joi.object({
+  id: Joi.string().required(),
+});
+
+const refreshToken = Joi.object({
+  token: Joi.string().required(),
+});
+
 module.exports = {
   registerUser,
   loginUser,
   updateUserProfile,
+  logout,
+  refreshToken,
 };
