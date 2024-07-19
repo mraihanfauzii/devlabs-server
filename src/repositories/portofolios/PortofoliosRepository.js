@@ -75,6 +75,22 @@ class PortofoliosRepository {
     const result = await db.command(query);
     return result;
   }
+
+  async updatePortofolio(data) {
+    const { id, name, description } = data;
+
+    const query = {
+      text: `
+        UPDATE portofolios
+        SET name = $1, description = $2
+        WHERE id = $3
+        RETURNING id`,
+      values: [name, description, id],
+    };
+
+    const result = await db.command(query);
+    return result;
+  }
 }
 
 module.exports = PortofoliosRepository;

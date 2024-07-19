@@ -462,7 +462,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{DOMAIN}}/api/v1/portofolios/78816fa0-c3be-4bf0-8f27-9b93a4b61937",
+							"raw": "{{DOMAIN}}/api/v1/portofolios/fab35f40-778c-49a9-8806-e1680f6de5f3",
 							"host": [
 								"{{DOMAIN}}"
 							],
@@ -470,7 +470,7 @@
 								"api",
 								"v1",
 								"portofolios",
-								"78816fa0-c3be-4bf0-8f27-9b93a4b61937"
+								"fab35f40-778c-49a9-8806-e1680f6de5f3"
 							]
 						}
 					},
@@ -527,6 +527,59 @@
 								"portofolios",
 								"attachments",
 								"1721138616849_capy.png"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Portofolio By Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Test Edited",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Test Edited",
+									"type": "text"
+								},
+								{
+									"key": "attachment_files",
+									"type": "file",
+									"src": [
+										"/C:/Users/Rieza/Pictures/meme/1.1.png",
+										"/C:/Users/Rieza/Pictures/meme/0.jpg"
+									]
+								}
+							]
+						},
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/portofolios/fab35f40-778c-49a9-8806-e1680f6de5f3",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"portofolios",
+								"fab35f40-778c-49a9-8806-e1680f6de5f3"
 							]
 						}
 					},
