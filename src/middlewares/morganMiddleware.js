@@ -13,9 +13,12 @@ const skip = () => {
   return env === 'test';
 };
 
+// Custom token to extract the real IP address
+morgan.token('real-ip', (req) => req.headers['x-forwarded-for'] || req.socket.remoteAddress);
+
 // Build the Morgan middleware
 const morganMiddleware = morgan(
-  ':remote-addr :method :url :status :res[content-length] - :response-time ms',
+  ':real-ip :method :url :status :res[content-length] - :response-time ms',
   { stream, skip },
 );
 
