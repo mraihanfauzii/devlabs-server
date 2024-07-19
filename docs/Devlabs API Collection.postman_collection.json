@@ -46,7 +46,8 @@
 							"script": {
 								"exec": [
 									"const responseJson = pm.response.json()\r",
-									"pm.collectionVariables.set('TOKEN', responseJson.data.accessToken)"
+									"pm.collectionVariables.set('TOKEN', responseJson.data.accessToken)\r",
+									"pm.collectionVariables.set('REFRESH_TOKEN', responseJson.data.refreshToken)"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -194,6 +195,49 @@
 					"response": []
 				},
 				{
+					"name": "Refresh Access Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json()\r",
+									"pm.collectionVariables.set('TOKEN', responseJson.data.accessToken)\r",
+									"pm.collectionVariables.set('REFRESH_TOKEN', responseJson.data.refreshToken)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"token\": \"{{REFRESH_TOKEN}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/users/refresh-token",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"refresh-token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Get User Profile Photo",
 					"request": {
 						"method": "GET",
@@ -209,6 +253,36 @@
 								"users",
 								"profile-pictures",
 								"1721268277151_2cuz39m1jm471.jpg"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/users/logout",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"logout"
 							]
 						}
 					},
@@ -943,6 +1017,11 @@
 			"value": "https://bumpy-insects-reply-yearly.a276.dcdg.xyz",
 			"type": "string",
 			"disabled": true
+		},
+		{
+			"key": "REFRESH_TOKEN",
+			"value": "",
+			"type": "string"
 		}
 	]
 }

@@ -4,9 +4,10 @@ const { comparePassword } = require('../../utils/hashPassword');
 const jwtToken = require('../../auth/jwtToken');
 
 class UsersController {
-  constructor(usersRepository, storageRepository) {
+  constructor(usersRepository, storageRepository, redisRepository) {
     this.usersRepository = usersRepository;
     this.storageRepository = storageRepository;
+    this.redisRepository = redisRepository;
   }
 
   async register(req, res) {
@@ -80,6 +81,16 @@ class UsersController {
     const userData = result.data[0];
     delete userData.password;
     const accessToken = jwtToken.generateAccessToken(userData);
+    const refreshToken = jwtToken.generateRefreshToken({ id: userData.id });
+
+    const redisResult = await this.redisRepository.set(`refresh-token:${userData.id}`, refreshToken);
+    if (redisResult.error) {
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to login',
+        code: 500,
+      });
+    }
 
     return res.status(200).json({
       success: true,
@@ -87,6 +98,7 @@ class UsersController {
       code: 200,
       data: {
         accessToken,
+        refreshToken,
       },
     });
   }
@@ -207,6 +219,93 @@ class UsersController {
       message: 'User profile successfully updated',
       code: 200,
       data: result.data[0],
+    });
+  }
+
+  async logout(req, res) {
+    const payload = { id: req.user.id };
+    const result = await this.redisRepository.delete(`refresh-token:${payload.id}`);
+    if (result.error) {
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to logout',
+        code: 500,
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'User successfully logged out',
+      code: 200,
+    });
+  }
+
+  async refreshToken(req, res) {
+    const payload = { ...req.body };
+    const validatedPayload = validator.validatePayload(usersSchema.refreshToken, payload);
+    if (validatedPayload.error) {
+      return res.status(400).json({
+        success: false,
+        message: validatedPayload.error,
+        code: 400,
+      });
+    }
+
+    const validToken = jwtToken.verifyRefreshToken(validatedPayload.data.token);
+    if (!validToken) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid refresh token',
+        code: 400,
+      });
+    }
+
+    const oldRefreshToken = await this.redisRepository.get(`refresh-token:${validToken.id}`);
+    if (oldRefreshToken.error) {
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to refresh token',
+        code: 500,
+      });
+    }
+
+    if (oldRefreshToken.data !== validatedPayload.data.token) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid refresh token',
+        code: 400,
+      });
+    }
+
+    const userData = await this.usersRepository.getUserById({ id: validToken.id });
+    if (userData.error) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+        code: 404,
+      });
+    }
+
+    const accessToken = jwtToken.generateAccessToken(userData.data[0]);
+    const newRefreshToken = jwtToken.generateRefreshToken({ id: userData.data[0].id });
+
+    const redisResult = await this.redisRepository.set(`refresh-token:${userData.data[0].id}`, newRefreshToken);
+    if (redisResult.error) {
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to refresh token',
+        code: 500,
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'Token successfully refreshed',
+      code: 200,
+      data: {
+        accessToken,
+        refreshToken: newRefreshToken,
+      },
     });
   }
 }
