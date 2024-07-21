@@ -26,6 +26,7 @@
         "consistent-return": "off",
         "no-await-in-loop": "off",
         "no-restricted-syntax": "off",
-        "function-call-argument-newline": "off"
+        "function-call-argument-newline": "off",
+        "function-paren-newline": "off"
     }
 }

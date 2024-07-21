@@ -2,10 +2,12 @@ const express = require('express');
 
 const ThemesController = require('../controllers/themes/ThemesController');
 const ThemesRepository = require('../repositories/themes/ThemesRepository');
+const ThemeClicksRepository = require('../repositories/themes/ThemeClicksRepository');
 
 const router = express.Router();
 const themesRepository = new ThemesRepository();
-const themesController = new ThemesController(themesRepository);
+const themeClicksRepository = new ThemeClicksRepository();
+const themesController = new ThemesController(themesRepository, themeClicksRepository);
 
 const authMiddleware = require('../middlewares/authMiddleware');
 
