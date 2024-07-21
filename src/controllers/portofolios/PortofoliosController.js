@@ -2,11 +2,12 @@ const validator = require('../../validator');
 const portofoliosSchema = require('../../validator/portofolios/portofoliosSchema');
 
 class PortofoliosController {
-  constructor(portofoliosRepository, portofolioAttachmentsRepository, userRepository, storageRepository) {
+  constructor(portofoliosRepository, portofolioAttachmentsRepository, userRepository, storageRepository, themesRepository) {
     this.portofoliosRepository = portofoliosRepository;
     this.portofolioAttachmentsRepository = portofolioAttachmentsRepository;
     this.userRepository = userRepository;
     this.storageRepository = storageRepository;
+    this.themesRepository = themesRepository;
   }
 
   async createPortofolio(req, res) {
@@ -21,6 +22,15 @@ class PortofoliosController {
         success: false,
         message: validatedPayload.error,
         code: 400,
+      });
+    }
+
+    const isThemeExist = await this.themesRepository.getThemeById({ id: validatedPayload.data.theme_id });
+    if (isThemeExist.error) {
+      return res.status(404).json({
+        success: false,
+        message: 'Theme not found',
+        code: 404,
       });
     }
 
@@ -116,8 +126,14 @@ class PortofoliosController {
         name: result.data[0].architect_name,
         picture: result.data[0].architect_picture,
       } : null,
+      theme: result.data[0].theme_id ? {
+        id: result.data[0].theme_id,
+        name: result.data[0].theme_name,
+        image: result.data[0].theme_image,
+      } : null,
       name: result.data[0].name,
       description: result.data[0].description,
+      estimated_budget: result.data[0].estimated_budget,
       created_at: result.data[0].created_at,
       attachments: attachments.data,
     };
@@ -131,7 +147,7 @@ class PortofoliosController {
   }
 
   async getUserPortofolios(req, res) {
-    const payload = { ...req.query };
+    const payload = { architect_id: req.query.architect_id || req.user.id };
     const validatedPayload = validator.validatePayload(portofoliosSchema.getUserPortofoliosSchema, payload);
     if (validatedPayload.error) {
       return res.status(400).json({
@@ -164,8 +180,14 @@ class PortofoliosController {
         name: portofolio.architect_name,
         picture: portofolio.architect_picture,
       } : null,
+      theme: portofolio.theme_id ? {
+        id: portofolio.theme_id,
+        name: portofolio.theme_name,
+        image: portofolio.theme_image,
+      } : null,
       name: portofolio.name,
       description: portofolio.description,
+      estimated_budget: portofolio.estimated_budget,
       created_at: portofolio.created_at,
       attachments: portofolio.attachments,
     }));
@@ -263,6 +285,15 @@ class PortofoliosController {
         success: false,
         message: 'Unauthorized to update portofolios not owned by you',
         code: 403,
+      });
+    }
+
+    const isThemeExist = await this.themesRepository.getThemeById({ id: validatedPayload.data.theme_id });
+    if (isThemeExist.error) {
+      return res.status(404).json({
+        success: false,
+        message: 'Theme not found',
+        code: 404,
       });
     }
 

@@ -59,7 +59,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "// {\r\n//     \"email\": \"client@gmail.com\",\r\n//     \"password\": \"12345678\",\r\n//     \"role\": \"client\"\r\n// }\r\n{\r\n    \"email\": \"architect@gmail.com\",\r\n    \"password\": \"12345678\",\r\n    \"role\": \"architect\"\r\n}",
+							"raw": "{\r\n    \"email\": \"client@gmail.com\",\r\n    \"password\": \"12345678\",\r\n    \"role\": \"client\"\r\n}\r\n// {\r\n//     \"email\": \"architect@gmail.com\",\r\n//     \"password\": \"12345678\",\r\n//     \"role\": \"architect\"\r\n// }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -497,12 +497,19 @@
 									"type": "text"
 								},
 								{
+									"key": "theme_id",
+									"value": "b710cd18-bc36-4adc-bb07-f14660206fb3",
+									"type": "text"
+								},
+								{
+									"key": "estimated_budget",
+									"value": "100000",
+									"type": "text"
+								},
+								{
 									"key": "attachment_files",
 									"type": "file",
-									"src": [
-										"/C:/Users/Rieza/Pictures/meme/6g2gr6.jpg",
-										"/C:/Users/Rieza/Pictures/capy.png"
-									]
+									"src": "/C:/Users/Rieza/Pictures/meme/0.jpg"
 								}
 							]
 						},
@@ -536,7 +543,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{DOMAIN}}/api/v1/portofolios/fab35f40-778c-49a9-8806-e1680f6de5f3",
+							"raw": "{{DOMAIN}}/api/v1/portofolios/5b03fb10-7c15-4040-add1-9641b59bace8",
 							"host": [
 								"{{DOMAIN}}"
 							],
@@ -544,7 +551,7 @@
 								"api",
 								"v1",
 								"portofolios",
-								"fab35f40-778c-49a9-8806-e1680f6de5f3"
+								"5b03fb10-7c15-4040-add1-9641b59bace8"
 							]
 						}
 					},
@@ -566,7 +573,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{DOMAIN}}/api/v1/portofolios?architect_id=79f27fb1-1598-4848-843b-99f0dd8369ce",
+							"raw": "{{DOMAIN}}/api/v1/portofolios",
 							"host": [
 								"{{DOMAIN}}"
 							],
@@ -574,12 +581,6 @@
 								"api",
 								"v1",
 								"portofolios"
-							],
-							"query": [
-								{
-									"key": "architect_id",
-									"value": "79f27fb1-1598-4848-843b-99f0dd8369ce"
-								}
 							]
 						}
 					},
@@ -635,17 +636,24 @@
 									"type": "text"
 								},
 								{
+									"key": "theme_id",
+									"value": "b710cd18-bc36-4adc-bb07-f14660206fb3",
+									"type": "text"
+								},
+								{
+									"key": "estimated_budget",
+									"value": "100000",
+									"type": "text"
+								},
+								{
 									"key": "attachment_files",
 									"type": "file",
-									"src": [
-										"/C:/Users/Rieza/Pictures/meme/1.1.png",
-										"/C:/Users/Rieza/Pictures/meme/0.jpg"
-									]
+									"src": "/C:/Users/Rieza/Pictures/meme/2cuz39m1jm471.jpg"
 								}
 							]
 						},
 						"url": {
-							"raw": "{{DOMAIN}}/api/v1/portofolios/fab35f40-778c-49a9-8806-e1680f6de5f3",
+							"raw": "{{DOMAIN}}/api/v1/portofolios/5ff1389d-06c6-4844-aa75-ec858fbb6c39",
 							"host": [
 								"{{DOMAIN}}"
 							],
@@ -653,7 +661,7 @@
 								"api",
 								"v1",
 								"portofolios",
-								"fab35f40-778c-49a9-8806-e1680f6de5f3"
+								"5ff1389d-06c6-4844-aa75-ec858fbb6c39"
 							]
 						}
 					},
@@ -675,7 +683,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{DOMAIN}}/api/v1/portofolios/3d0dfd46-1f2f-4f6a-953b-b0b9f11d4f33",
+							"raw": "{{DOMAIN}}/api/v1/portofolios/5cef315c-d7e7-431e-954c-f273623ff9ce",
 							"host": [
 								"{{DOMAIN}}"
 							],
@@ -683,7 +691,7 @@
 								"api",
 								"v1",
 								"portofolios",
-								"3d0dfd46-1f2f-4f6a-953b-b0b9f11d4f33"
+								"5cef315c-d7e7-431e-954c-f273623ff9ce"
 							]
 						}
 					},
@@ -977,6 +985,70 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Themes",
+			"item": [
+				{
+					"name": "Get All Themes",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/themes",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"themes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Theme By ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/themes/b710cd18-bc36-4adc-bb07-f14660206fb3",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"themes",
+								"b710cd18-bc36-4adc-bb07-f14660206fb3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
@@ -1013,15 +1085,15 @@
 			"type": "string"
 		},
 		{
+			"key": "REFRESH_TOKEN",
+			"value": "",
+			"type": "string"
+		},
+		{
 			"key": "DOMAIN",
 			"value": "https://bumpy-insects-reply-yearly.a276.dcdg.xyz",
 			"type": "string",
 			"disabled": true
-		},
-		{
-			"key": "REFRESH_TOKEN",
-			"value": "",
-			"type": "string"
 		}
 	]
 }
