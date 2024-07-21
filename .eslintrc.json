@@ -25,6 +25,7 @@
         "no-param-reassign": "off",
         "consistent-return": "off",
         "no-await-in-loop": "off",
-        "no-restricted-syntax": "off"
+        "no-restricted-syntax": "off",
+        "function-call-argument-newline": "off"
     }
 }

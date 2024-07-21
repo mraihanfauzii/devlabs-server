@@ -11,6 +11,7 @@ const portofolioRouter = require('./routes/portofolios');
 const ratingsRouter = require('./routes/ratings');
 const messagesRouter = require('./routes/messages');
 const promoRouter = require('./routes/promo');
+const themesRouter = require('./routes/themes');
 
 const morganMiddleware = require('./middlewares/morganMiddleware');
 
@@ -34,6 +35,7 @@ app.use(`${BASE_URL}/v1/portofolios`, portofolioRouter);
 app.use(`${BASE_URL}/v1/ratings`, ratingsRouter);
 app.use(`${BASE_URL}/v1/messages`, messagesRouter);
 app.use(`${BASE_URL}/v1/promo`, promoRouter);
+app.use(`${BASE_URL}/v1/themes`, themesRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

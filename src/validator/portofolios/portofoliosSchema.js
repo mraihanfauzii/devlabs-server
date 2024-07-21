@@ -4,6 +4,8 @@ const createPortofolioSchema = Joi.object({
   architect_id: Joi.string().required(),
   name: Joi.string().required(),
   description: Joi.string().required(),
+  theme_id: Joi.string().required(),
+  estimated_budget: Joi.number().integer().optional(),
   attachment_files: Joi.array().optional(),
 });
 
@@ -25,6 +27,8 @@ const updatePortofolio = Joi.object({
   architect_id: Joi.string().required(),
   name: Joi.string().required(),
   description: Joi.string().required(),
+  theme_id: Joi.string().required(),
+  estimated_budget: Joi.number().integer().optional(),
   attachment_files: Joi.array().optional(),
 });
 
