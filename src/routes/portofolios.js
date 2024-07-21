@@ -5,6 +5,7 @@ const path = require('path');
 const PortofoliosController = require('../controllers/portofolios/PortofoliosController');
 const PortofoliosRepository = require('../repositories/portofolios/PortofoliosRepository');
 const PortofolioAttachmentsRepository = require('../repositories/portofolios/PortofolioAttachmentsRepository');
+const PortofolioClicksRepository = require('../repositories/portofolios/PortofolioClicksRepository');
 const UsersRepository = require('../repositories/users/UsersRepository');
 const StorageRepository = require('../repositories/storage/StorageRepository');
 const ThemesRepository = require('../repositories/themes/ThemesRepository');
@@ -20,12 +21,14 @@ const upload = multer({
 });
 const portofoliosRepository = new PortofoliosRepository();
 const portofolioAttachmentsRepository = new PortofolioAttachmentsRepository();
+const portofolioClicksRepository = new PortofolioClicksRepository();
 const usersRepository = new UsersRepository();
 const storageRepository = new StorageRepository();
 const themesRepository = new ThemesRepository();
 const portofoliosController = new PortofoliosController(
   portofoliosRepository,
   portofolioAttachmentsRepository,
+  portofolioClicksRepository,
   usersRepository,
   storageRepository,
   themesRepository,

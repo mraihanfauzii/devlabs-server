@@ -2,8 +2,9 @@ const validator = require('../../validator');
 const themesSchema = require('../../validator/themes/themesSchema');
 
 class ThemesController {
-  constructor(themesRepository) {
+  constructor(themesRepository, themeClicksRepository) {
     this.themesRepository = themesRepository;
+    this.themeClicksRepository = themeClicksRepository;
   }
 
   async getAllThemes(req, res) {
@@ -16,6 +17,11 @@ class ThemesController {
       });
     }
 
+    for (const theme of themes.data) {
+      const clicks = await this.themeClicksRepository.getClicksByThemeId({ theme_id: theme.id });
+      theme.click_count = Number(clicks.data[0].clicks) ?? 0;
+    }
+
     return res.status(200).json({
       success: true,
       message: 'Themes found',
@@ -25,7 +31,7 @@ class ThemesController {
   }
 
   async getThemeById(req, res) {
-    const payload = { ...req.params };
+    const payload = { ...req.params, user_id: req.user.id };
     const validatedPayload = validator.validatePayload(themesSchema.getThemeById, payload);
     if (validatedPayload.error) {
       return res.status(400).json({
@@ -43,6 +49,14 @@ class ThemesController {
         code: 404,
       });
     }
+
+    await this.themeClicksRepository.createThemeClick({
+      theme_id: validatedPayload.data.id,
+      user_id: validatedPayload.data.user_id,
+    });
+
+    const themeClicks = await this.themeClicksRepository.getClicksByThemeId({ theme_id: validatedPayload.data.id });
+    theme.data[0].click_count = Number(themeClicks.data[0].clicks) ?? 0;
 
     return res.status(200).json({
       success: true,

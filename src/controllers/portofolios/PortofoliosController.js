@@ -2,9 +2,17 @@ const validator = require('../../validator');
 const portofoliosSchema = require('../../validator/portofolios/portofoliosSchema');
 
 class PortofoliosController {
-  constructor(portofoliosRepository, portofolioAttachmentsRepository, userRepository, storageRepository, themesRepository) {
+  constructor(
+    portofoliosRepository,
+    portofolioAttachmentsRepository,
+    portofolioClicksRepository,
+    userRepository,
+    storageRepository,
+    themesRepository,
+  ) {
     this.portofoliosRepository = portofoliosRepository;
     this.portofolioAttachmentsRepository = portofolioAttachmentsRepository;
+    this.portofolioClicksRepository = portofolioClicksRepository;
     this.userRepository = userRepository;
     this.storageRepository = storageRepository;
     this.themesRepository = themesRepository;
@@ -96,7 +104,7 @@ class PortofoliosController {
   }
 
   async getPortofolioById(req, res) {
-    const payload = { ...req.params };
+    const payload = { ...req.params, user_id: req.user.id };
     const validatedPayload = validator.validatePayload(portofoliosSchema.getPortofolioByIdSchema, payload);
     if (validatedPayload.error) {
       return res.status(400).json({
@@ -119,6 +127,15 @@ class PortofoliosController {
       portofolio_id: validatedPayload.data.id,
     });
 
+    await this.portofolioClicksRepository.createPortofolioClick({
+      portofolio_id: validatedPayload.data.id,
+      user_id: validatedPayload.data.user_id,
+    });
+
+    const portofolioClicks = await this.portofolioClicksRepository.getClicksByPortofolioId({
+      portofolio_id: validatedPayload.data.id,
+    });
+
     const mappedData = {
       id: result.data[0].id,
       architect: result.data[0].architect_id ? {
@@ -135,6 +152,7 @@ class PortofoliosController {
       description: result.data[0].description,
       estimated_budget: result.data[0].estimated_budget,
       created_at: result.data[0].created_at,
+      click_count: Number(portofolioClicks.data[0].clicks) ?? 0,
       attachments: attachments.data,
     };
 
@@ -170,7 +188,11 @@ class PortofoliosController {
       const attachments = await this.portofolioAttachmentsRepository.getPortofolioAttachmentsByPortofolioId({
         portofolio_id: portofolio.id,
       });
+      const clicks = await this.portofolioClicksRepository.getClicksByPortofolioId({
+        portofolio_id: portofolio.id,
+      });
       portofolio.attachments = attachments.data;
+      portofolio.click_count = Number(clicks.data[0].clicks) ?? 0;
     }
 
     const mappedData = result.data.map((portofolio) => ({
@@ -189,6 +211,7 @@ class PortofoliosController {
       description: portofolio.description,
       estimated_budget: portofolio.estimated_budget,
       created_at: portofolio.created_at,
+      click_count: portofolio.click_count,
       attachments: portofolio.attachments,
     }));
 

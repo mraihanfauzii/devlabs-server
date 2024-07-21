@@ -11,6 +11,7 @@ const createPortofolioSchema = Joi.object({
 
 const getPortofolioByIdSchema = Joi.object({
   id: Joi.string().required(),
+  user_id: Joi.string().required(),
 });
 
 const getUserPortofoliosSchema = Joi.object({
