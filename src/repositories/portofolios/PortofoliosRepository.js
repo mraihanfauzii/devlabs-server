@@ -105,6 +105,108 @@ class PortofoliosRepository {
     const result = await db.command(query);
     return result;
   }
+
+  async getTrendingPortofolios() {
+    const query = {
+      text: `
+        SELECT
+          p.id,
+          p.architect_id,
+          u.profile_name AS architect_name,
+          u.profile_picture AS architect_picture,
+          p.name,
+          p.description,
+          p.estimated_budget,
+          p.theme_id,
+          t.name AS theme_name,
+          t.theme_image,
+          p.created_at,
+          COALESCE(pc.click_count, 0) AS click_count
+        FROM portofolios p
+        LEFT JOIN users u ON p.architect_id = u.id
+        LEFT JOIN themes t ON p.theme_id = t.id
+        LEFT JOIN (
+          SELECT portofolio_id, COUNT(*) AS click_count
+          FROM portofolio_clicks
+          GROUP BY portofolio_id
+        ) pc ON p.id = pc.portofolio_id
+        ORDER BY click_count DESC`,
+      values: [],
+    };
+
+    const result = await db.query(query);
+    return result;
+  }
+
+  async getRecentPortofolios() {
+    const query = {
+      text: `
+        SELECT
+          p.id,
+          p.architect_id,
+          u.profile_name AS architect_name,
+          u.profile_picture AS architect_picture,
+          p.name,
+          p.description,
+          p.estimated_budget,
+          p.theme_id,
+          t.name AS theme_name,
+          t.theme_image,
+          p.created_at,
+          COALESCE(pc.click_count, 0) AS click_count
+        FROM portofolios p
+        LEFT JOIN users u ON p.architect_id = u.id
+        LEFT JOIN themes t ON p.theme_id = t.id
+        LEFT JOIN (
+          SELECT portofolio_id, COUNT(*) AS click_count
+          FROM portofolio_clicks
+          GROUP BY portofolio_id
+        ) pc ON p.id = pc.portofolio_id
+        ORDER BY p.created_at DESC`,
+      values: [],
+    };
+
+    const result = await db.query(query);
+    return result;
+  }
+
+  async getFavoritePortofolios(data) {
+    const { user_id } = data;
+
+    const query = {
+      text: `
+        SELECT
+          p.id,
+          p.architect_id,
+          u.profile_name AS architect_name,
+          u.profile_picture AS architect_picture,
+          p.name,
+          p.description,
+          p.estimated_budget,
+          p.theme_id,
+          t.name AS theme_name,
+          t.theme_image,
+          p.created_at,
+          COALESCE(pc.click_count, 0) AS click_count
+        FROM portofolios p
+        LEFT JOIN users u ON p.architect_id = u.id
+        LEFT JOIN themes t ON p.theme_id = t.id
+        LEFT JOIN (
+          SELECT portofolio_id, COUNT(*) AS click_count
+          FROM portofolio_clicks
+          GROUP BY portofolio_id
+        ) pc ON p.id = pc.portofolio_id
+        WHERE p.id IN (
+          SELECT portofolio_id
+          FROM user_portofolio_favourites
+          WHERE user_id = $1
+        )`,
+      values: [user_id],
+    };
+
+    const result = await db.query(query);
+    return result;
+  }
 }
 
 module.exports = PortofoliosRepository;
