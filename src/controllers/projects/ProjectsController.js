@@ -231,7 +231,47 @@ class ProjectsController {
   }
   async getStatusByProjectId(req, res) {
     const {id} = req.params
-    const projects = await this.projectsRepository.addStatusByProjectId({ id: id });
+    const projects = await this.projectsRepository.getStatusByProjectId({ id: id });
+    
+    if (projects.error) {
+      return res.status(404).json({
+        success: false,
+        message: 'Projects not found',
+        code: 404,
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'All projects successfully fetched',
+      code: 200,
+      data: projects.data,
+    });
+  }
+
+  async addLampiranByProjectId(req, res) {
+    const {id} = req.params
+    const payload = { ...req.body };
+    const projects = await this.projectsRepository.addLampiranByProjectId(payload, { id: id });
+    
+    if (projects.error) {
+      return res.status(404).json({
+        success: false,
+        message: 'Projects not found',
+        code: 404,
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'All lampiran successfully fetched',
+      code: 200,
+      data: projects.data,
+    });
+  }
+  async getLampiranByProjectId(req, res) {
+    const {id} = req.params
+    const projects = await this.projectsRepository.getLampiranByProjectId({ id: id });
     
     if (projects.error) {
       return res.status(404).json({

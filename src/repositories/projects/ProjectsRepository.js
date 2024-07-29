@@ -172,22 +172,49 @@ class projectsRepository {
     
     return result;
   }
-  async addStatusByProjectId(id){
-    
+  async getStatusByProjectId(id) {
+    console.log(">>", id.id)
     const query = {
       text: `
         SELECT *
         FROM status_detail
-        WHERE project_id = $1 `,
+        WHERE project_id = $1`,
       values: [id.id],
     };
+
     const result = await db.query(query);
-    console.log(result)
     return result;
   }
-
+  
+  
   // Vendor Section
+  async addLampiranByProjectId(data, id){
+    const { name, link, desc } = data;
+    console.log(">>", id, name, link, desc)
+    const query = {
+      text: `
+        INSERT INTO lampirans (project_id, name, link, "desc")
+        VALUES ($1, $2, $3, $4)
+        RETURNING *`,
+      values: [id.id, name, link, desc],
+    };
+    const result = await db.query(query);
+    
+    return result;
+  }
+  async getLampiranByProjectId(id) {
+    console.log(">>", id.id)
+    const query = {
+      text: `
+        SELECT *
+        FROM lampirans
+        WHERE project_id = $1`,
+      values: [id.id],
+    };
 
+    const result = await db.query(query);
+    return result;
+  }
   async accProject(data) {
     const  id  = data;
     const query = {
