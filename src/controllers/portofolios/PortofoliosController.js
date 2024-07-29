@@ -6,6 +6,7 @@ class PortofoliosController {
     portofoliosRepository,
     portofolioAttachmentsRepository,
     portofolioClicksRepository,
+    portofolioFavouritesRepository,
     userRepository,
     storageRepository,
     themesRepository,
@@ -13,6 +14,7 @@ class PortofoliosController {
     this.portofoliosRepository = portofoliosRepository;
     this.portofolioAttachmentsRepository = portofolioAttachmentsRepository;
     this.portofolioClicksRepository = portofolioClicksRepository;
+    this.portofolioFavouritesRepository = portofolioFavouritesRepository;
     this.userRepository = userRepository;
     this.storageRepository = storageRepository;
     this.themesRepository = themesRepository;
@@ -386,6 +388,184 @@ class PortofoliosController {
       message: 'Portofolio successfully updated',
       code: 200,
       data: result.data[0],
+    });
+  }
+
+  async getTrendingPortofolios(req, res) {
+    const result = await this.portofoliosRepository.getTrendingPortofolios();
+    if (result.error) {
+      return res.status(404).json({
+        success: false,
+        message: 'Trending portofolios not found',
+        code: 404,
+      });
+    }
+
+    const mappedData = result.data.map((portofolio) => ({
+      id: portofolio.id,
+      architect: portofolio.architect_id ? {
+        id: portofolio.architect_id,
+        name: portofolio.architect_name,
+        picture: portofolio.architect_picture,
+      } : null,
+      theme: portofolio.theme_id ? {
+        id: portofolio.theme_id,
+        name: portofolio.theme_name,
+        image: portofolio.theme_image,
+      } : null,
+      name: portofolio.name,
+      description: portofolio.description,
+      estimated_budget: portofolio.estimated_budget,
+      created_at: portofolio.created_at,
+      click_count: portofolio.click_count,
+    }));
+
+    return res.status(200).json({
+      success: true,
+      message: 'Trending portofolios found',
+      code: 200,
+      data: mappedData,
+    });
+  }
+
+  async getRecentPortofolios(req, res) {
+    const result = await this.portofoliosRepository.getRecentPortofolios();
+    if (result.error) {
+      return res.status(404).json({
+        success: false,
+        message: 'Recent portofolios not found',
+        code: 404,
+      });
+    }
+
+    const mappedData = result.data.map((portofolio) => ({
+      id: portofolio.id,
+      architect: portofolio.architect_id ? {
+        id: portofolio.architect_id,
+        name: portofolio.architect_name,
+        picture: portofolio.architect_picture,
+      } : null,
+      theme: portofolio.theme_id ? {
+        id: portofolio.theme_id,
+        name: portofolio.theme_name,
+        image: portofolio.theme_image,
+      } : null,
+      name: portofolio.name,
+      description: portofolio.description,
+      estimated_budget: portofolio.estimated_budget,
+      created_at: portofolio.created_at,
+      click_count: portofolio.click_count,
+    }));
+
+    return res.status(200).json({
+      success: true,
+      message: 'Recent portofolios found',
+      code: 200,
+      data: mappedData,
+    });
+  }
+
+  async getPortofolioFavourites(req, res) {
+    const payload = { user_id: req.user.id };
+    const validatedPayload = validator.validatePayload(portofoliosSchema.getPortofolioFavourites, payload);
+    if (validatedPayload.error) {
+      return res.status(400).json({
+        success: false,
+        message: validatedPayload.error,
+        code: 400,
+      });
+    }
+
+    const result = await this.portofoliosRepository.getFavoritePortofolios(validatedPayload.data);
+    if (result.error) {
+      return res.status(404).json({
+        success: false,
+        message: 'Portofolio favourites not found',
+        code: 404,
+      });
+    }
+
+    const mappedData = result.data.map((portofolio) => ({
+      id: portofolio.id,
+      architect: portofolio.architect_id ? {
+        id: portofolio.architect_id,
+        name: portofolio.architect_name,
+        picture: portofolio.architect_picture,
+      } : null,
+      theme: portofolio.theme_id ? {
+        id: portofolio.theme_id,
+        name: portofolio.theme_name,
+        image: portofolio.theme_image,
+      } : null,
+      name: portofolio.name,
+      description: portofolio.description,
+      estimated_budget: portofolio.estimated_budget,
+      created_at: portofolio.created_at,
+      click_count: portofolio.click_count,
+    }));
+
+    return res.status(200).json({
+      success: true,
+      message: 'Portofolio favourites found',
+      code: 200,
+      data: mappedData,
+    });
+  }
+
+  async favouritePortofolio(req, res) {
+    const payload = { ...req.body, user_id: req.user.id };
+    const validatedPayload = validator.validatePayload(portofoliosSchema.favouritePortofolio, payload);
+    if (validatedPayload.error) {
+      return res.status(400).json({
+        success: false,
+        message: validatedPayload.error,
+        code: 400,
+      });
+    }
+
+    const portofolio = await this.portofoliosRepository.getPortofolioById({ id: validatedPayload.data.portofolio_id });
+    if (portofolio.error) {
+      return res.status(404).json({
+        success: false,
+        message: 'Portofolio not found',
+        code: 404,
+      });
+    }
+
+    const isAlreadyFavorite = await this.portofolioFavouritesRepository.getPortofolioFavouriteByUserAndPortofolioId(
+      validatedPayload.data,
+    );
+
+    if (isAlreadyFavorite.data) {
+      const resultDelete = await this.portofolioFavouritesRepository.deletePortofolioFavourite(validatedPayload.data);
+      if (resultDelete.error) {
+        return res.status(500).json({
+          success: false,
+          message: 'Failed to delete favourite portofolio',
+          code: 500,
+        });
+      }
+
+      return res.status(200).json({
+        success: true,
+        message: 'Portofolio successfully unfavourited',
+        code: 200,
+      });
+    }
+
+    const result = await this.portofolioFavouritesRepository.createPortofolioFavourite(validatedPayload.data);
+    if (result.error) {
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to favourite portofolio',
+        code: 500,
+      });
+    }
+
+    return res.status(201).json({
+      success: true,
+      message: 'Portofolio successfully favourited',
+      code: 201,
     });
   }
 }

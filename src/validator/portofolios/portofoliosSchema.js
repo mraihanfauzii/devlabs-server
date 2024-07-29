@@ -33,10 +33,21 @@ const updatePortofolio = Joi.object({
   attachment_files: Joi.array().optional(),
 });
 
+const getPortofolioFavourites = Joi.object({
+  user_id: Joi.string().required(),
+});
+
+const favouritePortofolio = Joi.object({
+  portofolio_id: Joi.string().required(),
+  user_id: Joi.string().required(),
+});
+
 module.exports = {
   createPortofolioSchema,
   getPortofolioByIdSchema,
   getUserPortofoliosSchema,
   deletePortofolioByIdSchema,
   updatePortofolio,
+  getPortofolioFavourites,
+  favouritePortofolio,
 };

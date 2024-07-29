@@ -59,7 +59,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"client@gmail.com\",\r\n    \"password\": \"12345678\",\r\n    \"role\": \"client\"\r\n}\r\n// {\r\n//     \"email\": \"architect@gmail.com\",\r\n//     \"password\": \"12345678\",\r\n//     \"role\": \"architect\"\r\n// }",
+							"raw": "// {\r\n//     \"email\": \"client@gmail.com\",\r\n//     \"password\": \"12345678\",\r\n//     \"role\": \"client\"\r\n// }\r\n{\r\n    \"email\": \"architect@gmail.com\",\r\n    \"password\": \"12345678\",\r\n    \"role\": \"architect\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -498,7 +498,7 @@
 								},
 								{
 									"key": "theme_id",
-									"value": "b710cd18-bc36-4adc-bb07-f14660206fb3",
+									"value": "146394bf-3920-483f-a92c-1a9b9e06eabb",
 									"type": "text"
 								},
 								{
@@ -543,7 +543,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{DOMAIN}}/api/v1/portofolios/5b03fb10-7c15-4040-add1-9641b59bace8",
+							"raw": "{{DOMAIN}}/api/v1/portofolios/2b7b2029-6f5c-4923-968a-e87425080e97",
 							"host": [
 								"{{DOMAIN}}"
 							],
@@ -551,7 +551,7 @@
 								"api",
 								"v1",
 								"portofolios",
-								"5b03fb10-7c15-4040-add1-9641b59bace8"
+								"2b7b2029-6f5c-4923-968a-e87425080e97"
 							]
 						}
 					},
@@ -581,6 +581,13 @@
 								"api",
 								"v1",
 								"portofolios"
+							],
+							"query": [
+								{
+									"key": "architect_id",
+									"value": "5b03fb10-7c15-4040-add1-9641b59bace8",
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -692,6 +699,135 @@
 								"v1",
 								"portofolios",
 								"5cef315c-d7e7-431e-954c-f273623ff9ce"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Trending Portofolios",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/portofolios/trending",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"portofolios",
+								"trending"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Recent Portofolios",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/portofolios/recent",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"portofolios",
+								"recent"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Favourite Portofolios",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/portofolios/favourite",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"portofolios",
+								"favourite"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Favourite Portofolio",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"portofolio_id\" : \"5b03fb10-7c15-4040-add1-9641b59bace8\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/portofolios/favourite",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"portofolios",
+								"favourite"
 							]
 						}
 					},
@@ -1034,7 +1170,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{DOMAIN}}/api/v1/themes/b710cd18-bc36-4adc-bb07-f14660206fb3",
+							"raw": "{{DOMAIN}}/api/v1/themes/146394bf-3920-483f-a92c-1a9b9e06eabb",
 							"host": [
 								"{{DOMAIN}}"
 							],
@@ -1042,7 +1178,27 @@
 								"api",
 								"v1",
 								"themes",
-								"b710cd18-bc36-4adc-bb07-f14660206fb3"
+								"146394bf-3920-483f-a92c-1a9b9e06eabb"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Trending Themes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/themes/trending",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"themes",
+								"trending"
 							]
 						}
 					},
