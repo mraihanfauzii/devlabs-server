@@ -30,6 +30,7 @@ class TransactionsController {
   async addTransaction(req, res) {
     const payload = { ...req.body};
     const { id } = req.params
+    console.log("?>>>", id, payload)
     const validatedPayload = validator.validatePayload(transactionsSchema.addTransaction, payload);
     if (validatedPayload.error) {
       return res.status(400).json({

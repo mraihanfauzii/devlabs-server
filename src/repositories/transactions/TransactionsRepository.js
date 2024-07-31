@@ -66,6 +66,7 @@ class TransactionsRepository {
   // Vendor Section 
 
   async addTransaction(id, data) {
+    console.log("first")
     const {price} = data;
     
     const tax = price * 0.1 
@@ -79,7 +80,7 @@ class TransactionsRepository {
       values: ['Menunggu pembayaran', price, tax, amount],
     };
     const result = await db.command(makeTransactionQuery);
-
+    console.log(result)
     const transactionId = result.data[0].id;
     const relationTransactionProject = {
       text: `

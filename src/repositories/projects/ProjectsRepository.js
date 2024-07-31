@@ -23,7 +23,6 @@ class projectsRepository {
       values: [client_id, vendor_id.id, detail.data[0].id, 'Menunggu konfirmasi', project_name],
     }; 
     const result = await db.command(query);
-    console.log(">>>",result.data[0].id)
     const query2 = {
       text: `
         INSERT INTO status_detail (project_id, name, "desc")
