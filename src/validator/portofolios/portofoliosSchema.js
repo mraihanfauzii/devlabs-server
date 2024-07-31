@@ -42,6 +42,10 @@ const favouritePortofolio = Joi.object({
   user_id: Joi.string().required(),
 });
 
+const getAllPortofolios = Joi.object({
+  theme_id: Joi.string().optional(),
+});
+
 module.exports = {
   createPortofolioSchema,
   getPortofolioByIdSchema,
@@ -50,4 +54,5 @@ module.exports = {
   updatePortofolio,
   getPortofolioFavourites,
   favouritePortofolio,
+  getAllPortofolios,
 };

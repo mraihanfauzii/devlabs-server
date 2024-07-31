@@ -106,7 +106,8 @@ class PortofoliosRepository {
     return result;
   }
 
-  async getTrendingPortofolios() {
+  async getTrendingPortofolios(data) {
+    const { theme_id } = data;
     const query = {
       text: `
         SELECT
@@ -126,19 +127,21 @@ class PortofoliosRepository {
         LEFT JOIN users u ON p.architect_id = u.id
         LEFT JOIN themes t ON p.theme_id = t.id
         LEFT JOIN (
-          SELECT portofolio_id, COUNT(*) AS click_count
+          SELECT portofolio_id, COUNT(id) AS click_count
           FROM portofolio_clicks
           GROUP BY portofolio_id
         ) pc ON p.id = pc.portofolio_id
+        ${theme_id ? 'WHERE p.theme_id = $1' : ''}
         ORDER BY click_count DESC`,
-      values: [],
+      values: theme_id ? [theme_id] : [],
     };
 
     const result = await db.query(query);
     return result;
   }
 
-  async getRecentPortofolios() {
+  async getRecentPortofolios(data) {
+    const { theme_id } = data;
     const query = {
       text: `
         SELECT
@@ -158,12 +161,13 @@ class PortofoliosRepository {
         LEFT JOIN users u ON p.architect_id = u.id
         LEFT JOIN themes t ON p.theme_id = t.id
         LEFT JOIN (
-          SELECT portofolio_id, COUNT(*) AS click_count
+          SELECT portofolio_id, COUNT(id) AS click_count
           FROM portofolio_clicks
           GROUP BY portofolio_id
         ) pc ON p.id = pc.portofolio_id
+        ${theme_id ? 'WHERE p.theme_id = $1' : ''}
         ORDER BY p.created_at DESC`,
-      values: [],
+      values: theme_id ? [theme_id] : [],
     };
 
     const result = await db.query(query);
