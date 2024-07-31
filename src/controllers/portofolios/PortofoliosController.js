@@ -392,7 +392,18 @@ class PortofoliosController {
   }
 
   async getTrendingPortofolios(req, res) {
-    const result = await this.portofoliosRepository.getTrendingPortofolios();
+    const payload = { ...req.query };
+
+    const validatedPayload = validator.validatePayload(portofoliosSchema.getAllPortofolios, payload);
+    if (validatedPayload.error) {
+      return res.status(400).json({
+        success: false,
+        message: validatedPayload.error,
+        code: 400,
+      });
+    }
+
+    const result = await this.portofoliosRepository.getTrendingPortofolios(validatedPayload.data);
     if (result.error) {
       return res.status(404).json({
         success: false,
@@ -429,7 +440,18 @@ class PortofoliosController {
   }
 
   async getRecentPortofolios(req, res) {
-    const result = await this.portofoliosRepository.getRecentPortofolios();
+    const payload = { ...req.query };
+
+    const validatedPayload = validator.validatePayload(portofoliosSchema.getAllPortofolios, payload);
+    if (validatedPayload.error) {
+      return res.status(400).json({
+        success: false,
+        message: validatedPayload.error,
+        code: 400,
+      });
+    }
+
+    const result = await this.portofoliosRepository.getRecentPortofolios(validatedPayload.data);
     if (result.error) {
       return res.status(404).json({
         success: false,

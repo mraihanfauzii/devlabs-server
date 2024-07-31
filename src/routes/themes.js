@@ -12,6 +12,7 @@ const themesController = new ThemesController(themesRepository, themeClicksRepos
 const authMiddleware = require('../middlewares/authMiddleware');
 
 router.get('/', authMiddleware, (req, res) => themesController.getAllThemes(req, res));
+router.get('/trending', authMiddleware, (req, res) => themesController.getTrendingThemes(req, res));
 router.get('/:id', authMiddleware, (req, res) => themesController.getThemeById(req, res));
 
 module.exports = router;

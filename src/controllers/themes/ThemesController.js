@@ -65,6 +65,24 @@ class ThemesController {
       data: theme.data[0],
     });
   }
+
+  async getTrendingThemes(req, res) {
+    const themes = await this.themesRepository.getTrendingThemes();
+    if (themes.error) {
+      return res.status(404).json({
+        success: false,
+        message: 'Themes not found',
+        code: 404,
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'Themes found',
+      code: 200,
+      data: themes.data,
+    });
+  }
 }
 
 module.exports = ThemesController;
