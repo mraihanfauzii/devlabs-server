@@ -59,7 +59,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "// {\r\n//     \"email\": \"client@gmail.com\",\r\n//     \"password\": \"12345678\",\r\n//     \"role\": \"client\"\r\n// }\r\n{\r\n    \"email\": \"architect@gmail.com\",\r\n    \"password\": \"12345678\",\r\n    \"role\": \"architect\"\r\n}",
+							"raw": "// {\r\n//     \"email\": \"client@gmail.com\",\r\n//     \"password\": \"12345678\",\r\n//     \"role\": \"client\"\r\n// }\r\n{\r\n    \"email\": \"architect@gmail.com\",\r\n    \"password\": \"12345678\",\r\n    \"role\": \"architect\"\r\n}\r\n// {\r\n//     \"email\": \"sarah.jones@example.com\",\r\n//     \"password\": \"12345678\",\r\n//     \"role\": \"client\"\r\n// }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -106,6 +106,13 @@
 								"v1",
 								"users",
 								"list"
+							],
+							"query": [
+								{
+									"key": "role",
+									"value": "architect",
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -160,23 +167,23 @@
 							"formdata": [
 								{
 									"key": "profile_name",
-									"value": "edited architect",
+									"value": "Sarah Jones",
 									"type": "text"
 								},
 								{
 									"key": "profile_description",
-									"value": "im best architect",
+									"value": "Client looking for a cozy and inviting home.",
 									"type": "text"
 								},
 								{
 									"key": "phonenumber",
-									"value": "02223214",
+									"value": "081234567895",
 									"type": "text"
 								},
 								{
 									"key": "profile_picture",
 									"type": "file",
-									"src": "/C:/Users/Rieza/Pictures/meme/2cuz39m1jm471.jpg"
+									"src": "/C:/Users/Rieza/Pictures/test.jpg"
 								}
 							]
 						},
@@ -585,7 +592,7 @@
 							"query": [
 								{
 									"key": "architect_id",
-									"value": "5b03fb10-7c15-4040-add1-9641b59bace8",
+									"value": "7d492cd4-0c82-45f9-a72c-539d8d553b42",
 									"disabled": true
 								}
 							]
@@ -729,6 +736,13 @@
 								"v1",
 								"portofolios",
 								"trending"
+							],
+							"query": [
+								{
+									"key": "theme_id",
+									"value": "b710cd18-bc36-4adc-bb07-f14660206fb3",
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -759,6 +773,13 @@
 								"v1",
 								"portofolios",
 								"recent"
+							],
+							"query": [
+								{
+									"key": "theme_id",
+									"value": "b710cd18-bc36-4adc-bb07-f14660206fb3",
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -1060,7 +1081,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"receiver_id\": \"089469f2-7f2b-489e-a712-2ef772741f03\",\r\n    \"message\": \"test\"\r\n}",
+							"raw": "{\r\n    \"receiver_id\": \"79f27fb1-1598-4848-843b-99f0dd8369ce\",\r\n    \"message\": \"new halo\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1115,6 +1136,36 @@
 									"key": "second_user_id",
 									"value": "79f27fb1-1598-4848-843b-99f0dd8369ce"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Last Messages",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/messages/last",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"messages",
+								"last"
 							]
 						}
 					},
@@ -1187,6 +1238,16 @@
 				{
 					"name": "Get Trending Themes",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {

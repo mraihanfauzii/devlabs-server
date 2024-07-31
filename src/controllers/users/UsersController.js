@@ -104,7 +104,17 @@ class UsersController {
   }
 
   async getAllUsers(req, res) {
-    const result = await this.usersRepository.getAllUsers();
+    const payload = { ...req.query };
+    const validatedPayload = validator.validatePayload(usersSchema.getAllUsers, payload);
+    if (validatedPayload.error) {
+      return res.status(400).json({
+        success: false,
+        message: validatedPayload.error,
+        code: 400,
+      });
+    }
+
+    const result = await this.usersRepository.getAllUsers(validatedPayload.data);
 
     result.data.forEach((user) => {
       delete user.password;

@@ -11,7 +11,12 @@ const getMessagesBetweenUsers = Joi.object({
   second_user_id: Joi.string().required(),
 });
 
+const getLastMessagesForUser = Joi.object({
+  user_id: Joi.string().required(),
+});
+
 module.exports = {
   createMessage,
   getMessagesBetweenUsers,
+  getLastMessagesForUser,
 };
