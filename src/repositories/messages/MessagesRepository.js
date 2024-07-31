@@ -43,6 +43,33 @@ class MessagesRepository {
     const result = await db.query(query);
     return result;
   }
+
+  async getLastMessagesForUser(user_id) {
+    const query = {
+      text: `
+        SELECT
+          m.id,
+          CASE
+            WHEN m.sender_id = $1 THEN m.receiver_id
+            ELSE m.sender_id
+          END AS contact_id,
+          u.profile_name AS contact_profile_name,
+          u.profile_picture AS contact_profile_picture,
+          m.message,
+          m.created_at
+        FROM messages m
+        LEFT JOIN users u ON u.id = CASE
+          WHEN m.sender_id = $1 THEN m.receiver_id
+          ELSE m.sender_id
+        END
+        WHERE m.sender_id = $1 OR m.receiver_id = $1
+        ORDER BY m.created_at DESC`,
+      values: [user_id],
+    };
+
+    const result = await db.query(query);
+    return result;
+  }
 }
 
 module.exports = MessagesRepository;

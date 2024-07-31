@@ -44,8 +44,16 @@ class UsersRepository {
     return result;
   }
 
-  async getAllUsers() {
-    const query = 'SELECT * FROM users';
+  async getAllUsers(data) {
+    const { role } = data;
+    const query = {
+      text: `
+        SELECT *
+        FROM users
+        ${role ? 'WHERE role = $1' : ''}`,
+      values: role ? [role] : [],
+    };
+
     const result = await db.query(query);
     return result;
   }

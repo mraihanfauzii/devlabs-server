@@ -13,5 +13,6 @@ const messagesController = new MessagesController(messagesRepository, usersRepos
 
 router.post('/', authMiddleware, (req, res) => messagesController.createMessage(req, res));
 router.get('/', authMiddleware, (req, res) => messagesController.getMessagesBetweenUsers(req, res));
+router.get('/last', authMiddleware, (req, res) => messagesController.getLastMessagesForUser(req, res));
 
 module.exports = router;

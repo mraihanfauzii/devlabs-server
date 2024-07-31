@@ -105,6 +105,52 @@ class MessagesController {
       data: mappedData,
     });
   }
+
+  async getLastMessagesForUser(req, res) {
+    const payload = { user_id: req.user.id };
+    const validatedPayload = validator.validatePayload(messagesSchema.getLastMessagesForUser, payload);
+    if (validatedPayload.error) {
+      return res.status(400).json({
+        success: false,
+        message: validatedPayload.error,
+        code: 400,
+      });
+    }
+
+    const result = await this.messagesRepository.getLastMessagesForUser(validatedPayload.data.user_id);
+    if (result.error) {
+      return res.status(404).json({
+        success: false,
+        message: 'Messages not found',
+        code: 404,
+      });
+    }
+
+    const lastMessages = result.data.reduce((acc, row) => {
+      if (!acc.find((msg) => msg.contact_id === row.contact_id)) {
+        acc.push(row);
+      }
+      return acc;
+    }, []);
+
+    const mappedData = lastMessages.map((message) => ({
+      id: message.id,
+      contact: message.contact_id ? {
+        id: message.contact_id,
+        profile_name: message.contact_profile_name,
+        profile_picture: message.contact_profile_picture,
+      } : null,
+      message: message.message,
+      created_at: message.created_at,
+    }));
+
+    return res.status(200).json({
+      success: true,
+      message: 'Messages found',
+      code: 200,
+      data: mappedData,
+    });
+  }
 }
 
 module.exports = MessagesController;

@@ -30,10 +30,15 @@ const refreshToken = Joi.object({
   token: Joi.string().required(),
 });
 
+const getAllUsers = Joi.object({
+  role: Joi.string().valid('admin', 'client', 'architect', 'builder').optional(),
+});
+
 module.exports = {
   registerUser,
   loginUser,
   updateUserProfile,
   logout,
   refreshToken,
+  getAllUsers,
 };
