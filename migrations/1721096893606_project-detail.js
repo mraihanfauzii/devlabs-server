@@ -64,7 +64,7 @@ exports.up = (pgm) => {
       notNull: true,
     },
     buildingtime: {
-      type: 'timestamp'
+      type: 'timestamp',
     },
     notes: {
       type: 'varchar(250)',

@@ -16,7 +16,7 @@ exports.up = (pgm) => {
       default: pgm.func('uuid_generate_v4()'),
     },
     project_id: {
-      type: 'uuid'
+      type: 'uuid',
     },
     name: {
       type: 'varchar(100)',
@@ -29,7 +29,7 @@ exports.up = (pgm) => {
     created_at: {
       type: 'timestamp',
       default: pgm.func('current_timestamp'),
-    }
+    },
   });
   pgm.addConstraint('status_detail', 'fk_projects', 'FOREIGN KEY(project_id) REFERENCES projects(id) ON DELETE SET NULL');
 };

@@ -9,7 +9,7 @@ class TransactionsController {
 
   async payBillTransactions(req, res) {
     const payload = { ...req.body };
-    const {id} = req.params
+    const { id } = req.params;
     const result = await this.transactionsRepository.payBillTransactions(id, payload);
 
     if (result.error) {
@@ -28,8 +28,9 @@ class TransactionsController {
   }
 
   async addTransaction(req, res) {
-    const payload = { ...req.body};
-    const { id } = req.params
+    const payload = { ...req.body };
+    const { id } = req.params;
+    console.log('?>>>', id, payload);
     const validatedPayload = validator.validatePayload(transactionsSchema.addTransaction, payload);
     if (validatedPayload.error) {
       return res.status(400).json({
@@ -38,8 +39,8 @@ class TransactionsController {
         code: 400,
       });
     }
-    
-    const isProjectExist = await this.projectsRepository.getProjectsById({ id: id });
+
+    const isProjectExist = await this.projectsRepository.getProjectsById({ id });
 
     if (isProjectExist.error) {
       return res.status(404).json({
@@ -48,7 +49,7 @@ class TransactionsController {
         code: 404,
       });
     }
-    
+
     const result = await this.transactionsRepository.addTransaction(id, validatedPayload.data);
 
     if (result.error) {

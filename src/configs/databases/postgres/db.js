@@ -25,7 +25,7 @@ class DB {
     this.initialConnect();
   }
 
-  async initialConnect() {
+  async initialConnect(retryTimeout = 5000) {
     const maxRetries = 10;
     let attempts = 0;
     while (attempts < maxRetries) {
@@ -39,7 +39,7 @@ class DB {
         logger.error(`Initial database connection error (attempt ${attempts}):`, err);
         if (attempts < maxRetries) {
           logger.info(`Retrying database connection (attempt ${attempts + 1})...`);
-          await new Promise((resolve) => { setTimeout(resolve, 5000); });
+          await new Promise((resolve) => { setTimeout(resolve, retryTimeout); });
         } else {
           logger.info('Continuing to run server without database connection');
         }

@@ -1,11 +1,10 @@
 const db = require('../../configs/databases/postgres/db');
 
 class projectsRepository {
-
   // Customer Section
 
   async addProject(data, vendor_id) {
-    //const { client_id, vendor_id, name } = data;
+    // const { client_id, vendor_id, name } = data;
     const { client_id, project_name, name, lat, long, type, buildingtype, area, numperson, numroom, numbathroom, numfloor, theme, budget, buildingtime, notes } = data;
     const query1 = {
       text: `
@@ -21,22 +20,21 @@ class projectsRepository {
         VALUES ($1, $2, $3, $4, $5)
         RETURNING id`,
       values: [client_id, vendor_id.id, detail.data[0].id, 'Menunggu konfirmasi', project_name],
-    }; 
+    };
     const result = await db.command(query);
-    console.log(">>>",result.data[0].id)
     const query2 = {
       text: `
         INSERT INTO status_detail (project_id, name, "desc")
         VALUES ($1, $2, $3)
         RETURNING *`,
-      values: [result.data[0].id, "Menunggu konfirmasi", "Menunggu konfirmasi dari vendor"],
+      values: [result.data[0].id, 'Menunggu konfirmasi', 'Menunggu konfirmasi dari vendor'],
     };
     await db.command(query2);
     return result;
   }
 
   async finishPaymentProject(data) {
-    const  id  = data;
+    const id = data;
     const query = {
       text: `
         UPDATE projects
@@ -51,17 +49,16 @@ class projectsRepository {
         INSERT INTO status_detail (project_id, name, "desc")
         VALUES ($1, $2, $3)
         RETURNING *`,
-      values: [id, "Project telah selesai", "Project anda telah selesai"],
+      values: [id, 'Project telah selesai', 'Project anda telah selesai'],
     };
     await db.command(query2);
     return result;
   }
-  
+
   async getProjectsByUserId(data, role) {
-    
     const { id } = data;
-    console.log(id, role)
-    if(role === 'client'){
+    console.log(id, role);
+    if (role === 'client') {
       var query = {
         text: `
           SELECT 
@@ -80,7 +77,7 @@ class projectsRepository {
           WHERE projects.client_id = $1`,
         values: [id],
       };
-    }else{
+    } else {
       var query = {
         text: `
           SELECT 
@@ -101,7 +98,7 @@ class projectsRepository {
       };
     }
     const result = await db.query(query);
-    console.log(result)
+    console.log(result);
     return result;
   }
 
@@ -119,7 +116,7 @@ class projectsRepository {
 
   async getProjectsById(data) {
     const { id } = data;
-    console.log(">>",id)
+    console.log('>>', id);
     const query = {
       text: `
         SELECT 
@@ -140,13 +137,13 @@ class projectsRepository {
     };
 
     const result = await db.query(query);
-    console.log(id)
-    console.log(result)
+    console.log(id);
+    console.log(result);
     return result;
   }
 
   async finishProject(data) {
-    const  id  = data;
+    const id = data;
     const query = {
       text: `
         UPDATE projects
@@ -158,8 +155,8 @@ class projectsRepository {
 
     return result;
   }
-  async addStatusByProjectId(data, id){
-    
+
+  async addStatusByProjectId(data, id) {
     const { name, desc } = data;
     const query = {
       text: `
@@ -169,11 +166,12 @@ class projectsRepository {
       values: [id.id, name, desc],
     };
     const result = await db.query(query);
-    
+
     return result;
   }
+
   async getStatusByProjectId(id) {
-    console.log(">>", id.id)
+    console.log('>>', id.id);
     const query = {
       text: `
         SELECT *
@@ -185,12 +183,11 @@ class projectsRepository {
     const result = await db.query(query);
     return result;
   }
-  
-  
+
   // Vendor Section
-  async addLampiranByProjectId(data, id){
+  async addLampiranByProjectId(data, id) {
     const { name, link, desc } = data;
-    console.log(">>", id, name, link, desc)
+    console.log('>>', id, name, link, desc);
     const query = {
       text: `
         INSERT INTO lampirans (project_id, name, link, "desc")
@@ -199,11 +196,12 @@ class projectsRepository {
       values: [id.id, name, link, desc],
     };
     const result = await db.query(query);
-    
+
     return result;
   }
+
   async getLampiranByProjectId(id) {
-    console.log(">>", id.id)
+    console.log('>>', id.id);
     const query = {
       text: `
         SELECT *
@@ -215,8 +213,9 @@ class projectsRepository {
     const result = await db.query(query);
     return result;
   }
+
   async accProject(data) {
-    const  id  = data;
+    const id = data;
     const query = {
       text: `
         UPDATE projects
@@ -225,22 +224,22 @@ class projectsRepository {
       values: ['Pembayaran', id],
     };
     const result = await db.query(query);
-    
+
     const query2 = {
       text: `
         INSERT INTO status_detail (project_id, name, "desc")
         VALUES ($1, $2, $3)
         RETURNING *`,
-      values: [id, "Vendor telah mengkonfimasi project", "Vendor telah mengkonfimasi project, silahkan lanjutkan pembayaran"],
+      values: [id, 'Vendor telah mengkonfimasi project', 'Vendor telah mengkonfimasi project, silahkan lanjutkan pembayaran'],
     };
     const updatestatus = await db.command(query2);
-    console.log(updatestatus)
+    console.log(updatestatus);
 
     return result;
   }
 
   async processingProject(data) {
-    const  id  = data;
+    const id = data;
     const query0 = {
       text: `
         INSERT status_detail (project_id, name, desc)
@@ -264,7 +263,7 @@ class projectsRepository {
         INSERT INTO status_detail (project_id, name, "desc")
         VALUES ($1, $2, $3)
         RETURNING *`,
-      values: [id, "Sedang masa pengerjaan", "Sedang masa pengerjaan, silhakan tunggu beberapa saat"],
+      values: [id, 'Sedang masa pengerjaan', 'Sedang masa pengerjaan, silhakan tunggu beberapa saat'],
     };
     await db.command(query2);
 
@@ -272,7 +271,7 @@ class projectsRepository {
   }
 
   async checkProject(data) {
-    const  id  = data;
+    const id = data;
     const query0 = {
       text: `
         INSERT status_detail (project_id, name, desc)
@@ -294,7 +293,7 @@ class projectsRepository {
         INSERT INTO status_detail (project_id, name, "desc")
         VALUES ($1, $2, $3)
         RETURNING *`,
-      values: [id, "Masa pengecekan ulang", "Silahkan periksa pekerjaan yang telah dilakukan oleh vendor"],
+      values: [id, 'Masa pengecekan ulang', 'Silahkan periksa pekerjaan yang telah dilakukan oleh vendor'],
     };
     await db.command(query2);
     return result;
