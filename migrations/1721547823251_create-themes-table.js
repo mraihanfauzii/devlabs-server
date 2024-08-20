@@ -9,7 +9,7 @@ exports.up = (pgm) => {
     id: {
       type: 'uuid',
       primaryKey: true,
-      default: pgm.func('uuid_generate_v4()')
+      default: pgm.func('uuid_generate_v4()'),
     },
     name: {
       type: 'varchar(255)',
@@ -20,7 +20,7 @@ exports.up = (pgm) => {
     },
     created_at: {
       type: 'timestamp',
-      default: pgm.func('current_timestamp')
+      default: pgm.func('current_timestamp'),
     },
   });
 

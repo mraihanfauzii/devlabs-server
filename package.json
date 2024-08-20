@@ -35,6 +35,10 @@
     "eslint-plugin-import": "^2.29.1",
     "jest": "^29.7.0",
     "node-pg-migrate": "^7.5.2",
-    "nodemon": "^3.1.4"
-  }
+    "nodemon": "^3.1.4",
+    "pre-commit": "^1.2.2"
+  },
+  "pre-commit": [
+    "test"
+  ]
 }

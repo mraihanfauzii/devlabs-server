@@ -1,7 +1,6 @@
 const db = require('../../configs/databases/postgres/db');
 
 class TransactionsRepository {
-
   // Customer Section
   async getTransactionById(data) {
     const { id } = data;
@@ -20,7 +19,7 @@ class TransactionsRepository {
   }
 
   async payBillTransactions(id, data) {
-    console.log(id)
+    console.log(id);
     const getTransactionId = {
       text: `
         SELECT transaction_id
@@ -29,25 +28,24 @@ class TransactionsRepository {
       values: [id],
     };
     const TransactionId = await db.query(getTransactionId);
-    console.log(">>",TransactionId.data[0].transaction_id)
+    console.log('>>', TransactionId.data[0].transaction_id);
 
     const query = {
-        text: `
+      text: `
           UPDATE transactions
           SET status = $1, payment_method=$2
           WHERE id = $3
           RETURNING *`,
-        values: ['Telah dibayar', data.payment_method, TransactionId.data[0].transaction_id],
+      values: ['Telah dibayar', data.payment_method, TransactionId.data[0].transaction_id],
     };
-    
 
     const query1 = {
-        text: `
+      text: `
           UPDATE projects
           SET status = $1
           WHERE id = $2
           RETURNING *`,
-        values: ['Pengerjaan', id],
+      values: ['Pengerjaan', id],
     };
     const result = await db.query(query1);
 
@@ -56,21 +54,21 @@ class TransactionsRepository {
         INSERT INTO status_detail (project_id, name, "desc")
         VALUES ($1, $2, $3)
         RETURNING *`,
-      values: [id, "Transaksi selesai", "Pengerjaan akan segera dilakukan"],
+      values: [id, 'Transaksi selesai', 'Pengerjaan akan segera dilakukan'],
     };
     await db.command(query2);
 
     return result;
   }
 
-  // Vendor Section 
+  // Vendor Section
 
   async addTransaction(id, data) {
-    console.log("first")
-    const {price} = data;
-    
-    const tax = price * 0.1 
-    const amount = price + tax
+    console.log('first');
+    const { price } = data;
+
+    const tax = price * 0.1;
+    const amount = price + tax;
 
     const makeTransactionQuery = {
       text: `
@@ -80,7 +78,7 @@ class TransactionsRepository {
       values: ['Menunggu pembayaran', price, tax, amount],
     };
     const result = await db.command(makeTransactionQuery);
-    console.log(result)
+    console.log(result);
     const transactionId = result.data[0].id;
     const relationTransactionProject = {
       text: `
@@ -88,8 +86,8 @@ class TransactionsRepository {
         SET transaction_id = $1
         WHERE id = $2
       `,
-      values: [transactionId, id ]
-    }
+      values: [transactionId, id],
+    };
     const result1 = await db.command(relationTransactionProject);
 
     return result1;

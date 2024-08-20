@@ -9,11 +9,11 @@ exports.shorthands = undefined;
  * @returns {Promise<void> | void}
  */
 exports.up = (pgm) => {
-    pgm.addColumns('banks', {
-        img: {
-            type: 'varchar(100)'
-        },
-    });
+  pgm.addColumns('banks', {
+    img: {
+      type: 'varchar(100)',
+    },
+  });
 };
 
 /**
@@ -22,5 +22,5 @@ exports.up = (pgm) => {
  * @returns {Promise<void> | void}
  */
 exports.down = (pgm) => {
-    pgm.dropColumns('banks', 'img');
+  pgm.dropColumns('banks', 'img');
 };

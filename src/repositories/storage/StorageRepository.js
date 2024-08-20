@@ -23,7 +23,7 @@ class StorageRepository {
       }
       const filePath = path.join(folderPath, fileName);
       await fs.promises.writeFile(filePath, fileData);
-      const routingPath = `/${routePath}/${fileName}`.replace(/\\/g, '/');
+      const routingPath = `${routePath ? `/${routePath}` : ''}/${fileName}`.replace(/\\/g, '/');
       logger.info(`File saved: ${filePath}, routing path: ${routingPath}`);
       return routingPath;
     } catch (err) {

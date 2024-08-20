@@ -10,5 +10,4 @@ const promoController = new PromoController(promoRepository);
 
 router.get('/', authMiddleware, (req, res) => promoController.getPromo(req, res));
 
-
 module.exports = router;

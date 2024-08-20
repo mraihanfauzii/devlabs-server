@@ -1,4 +1,3 @@
-
 class PaymentsController {
   constructor(PaymentsRepository) {
     this.PaymentsRepository = PaymentsRepository;
@@ -16,7 +15,7 @@ class PaymentsController {
   }
 
   async getAllPaymentMethodByID(req, res) {
-    const id = req.params
+    const id = req.params;
     const payment = await this.PaymentsRepository.getAllPaymentMethodByID(id);
 
     return res.status(200).send({
@@ -26,6 +25,5 @@ class PaymentsController {
       data: payment.data[0],
     });
   }
-
 }
 module.exports = PaymentsController;

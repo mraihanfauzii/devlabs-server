@@ -9,7 +9,7 @@ class ProjectsController {
 
   async addProject(req, res) {
     const payload = { ...req.body };
-    const vendor_id = req.params
+    const vendor_id = req.params;
     payload.client_id = req.user.id;
     /* const validatedPayload = validator.validatePayload(projectsSchema.addProject, payload);
     if (validatedPayload.error) {
@@ -20,7 +20,7 @@ class ProjectsController {
       });
     } */
 
-    //const isUserExist = await this.usersRepository.getUserById({ id: validatedPayload.data.vendor_id });
+    // const isUserExist = await this.usersRepository.getUserById({ id: validatedPayload.data.vendor_id });
     const isUserExist = await this.usersRepository.getUserById({ id: payload.client_id });
 
     if (isUserExist.error) {
@@ -31,7 +31,7 @@ class ProjectsController {
       });
     }
 
-    //const result = await this.projectsRepository.addProject(validatedPayload.data);
+    // const result = await this.projectsRepository.addProject(validatedPayload.data);
     const result = await this.projectsRepository.addProject(payload, vendor_id);
 
     if (result.error) {
@@ -51,7 +51,7 @@ class ProjectsController {
   }
 
   async accProject(req, res) {
-    const { id } = req.params
+    const { id } = req.params;
 
     const result = await this.projectsRepository.accProject(id);
 
@@ -72,7 +72,7 @@ class ProjectsController {
   }
 
   async checkProject(req, res) {
-    const { id } = req.params
+    const { id } = req.params;
 
     const result = await this.projectsRepository.checkProject(id);
 
@@ -91,8 +91,9 @@ class ProjectsController {
       data: result,
     });
   }
+
   async finishProject(req, res) {
-    const { id } = req.params
+    const { id } = req.params;
 
     const result = await this.projectsRepository.finishProject(id);
 
@@ -113,7 +114,7 @@ class ProjectsController {
   }
 
   async getProjectsByUserId(req, res) {
-    const role = req.user.role
+    const { role } = req.user;
     const payload = { user_id: req.user.id };
     const validatedPayload = validator.validatePayload(projectsSchema.getProjectsByUserId, payload);
     if (validatedPayload.error) {
@@ -190,10 +191,10 @@ class ProjectsController {
   }
 
   async getProjectsById(req, res) {
-    const {id } = req.params
-    
-    const projects = await this.projectsRepository.getProjectsById({ id: id });
-    
+    const { id } = req.params;
+
+    const projects = await this.projectsRepository.getProjectsById({ id });
+
     if (projects.error) {
       return res.status(404).json({
         success: false,
@@ -209,11 +210,12 @@ class ProjectsController {
       data: projects.data,
     });
   }
+
   async addStatusByProjectId(req, res) {
-    const {id} = req.params
+    const { id } = req.params;
     const payload = { ...req.body };
-    const projects = await this.projectsRepository.addStatusByProjectId(payload, { id: id });
-    
+    const projects = await this.projectsRepository.addStatusByProjectId(payload, { id });
+
     if (projects.error) {
       return res.status(404).json({
         success: false,
@@ -229,10 +231,11 @@ class ProjectsController {
       data: projects.data,
     });
   }
+
   async getStatusByProjectId(req, res) {
-    const {id} = req.params
-    const projects = await this.projectsRepository.getStatusByProjectId({ id: id });
-    
+    const { id } = req.params;
+    const projects = await this.projectsRepository.getStatusByProjectId({ id });
+
     if (projects.error) {
       return res.status(404).json({
         success: false,
@@ -250,10 +253,10 @@ class ProjectsController {
   }
 
   async addLampiranByProjectId(req, res) {
-    const {id} = req.params
+    const { id } = req.params;
     const payload = { ...req.body };
-    const projects = await this.projectsRepository.addLampiranByProjectId(payload, { id: id });
-    
+    const projects = await this.projectsRepository.addLampiranByProjectId(payload, { id });
+
     if (projects.error) {
       return res.status(404).json({
         success: false,
@@ -269,10 +272,11 @@ class ProjectsController {
       data: projects.data,
     });
   }
+
   async getLampiranByProjectId(req, res) {
-    const {id} = req.params
-    const projects = await this.projectsRepository.getLampiranByProjectId({ id: id });
-    
+    const { id } = req.params;
+    const projects = await this.projectsRepository.getLampiranByProjectId({ id });
+
     if (projects.error) {
       return res.status(404).json({
         success: false,
