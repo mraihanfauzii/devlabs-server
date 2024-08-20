@@ -1,0 +1,59 @@
+name: Continuous Integration
+
+on: 
+    pull_request:
+        branches:
+            - main
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                node-version: [20.x]
+        
+        services:
+            postgres:
+                image: postgres
+                env:
+                    POSTGRES_USER: postgres
+                    POSTGRES_PASSWORD: mysecretpassword
+                    POSTGRES_DB: db_devlabs_test
+                
+                options: >-
+                    --health-cmd pg_isready
+                    --health-interval 10s
+                    --health-timeout 5s
+                    --health-retries 5
+                ports:
+                    - 5432:5432
+
+        steps:
+        - uses: actions/checkout@v2
+        - name: Use Node.js ${{ matrix.node-version }}
+          uses: actions/setup-node@v2
+          with:
+            node-version: ${{ matrix.node-version }}
+        - name: npm install migrate and test
+          run: |
+            npm install
+            npm run migrate up
+            npm run test
+          env:
+            CI: true
+            ENV: development
+            HOST: localhost
+            PORT: 3000
+            PGHOST: localhost
+            PGPORT: 5432
+            PGUSER: postgres
+            PGPASSWORD: mysecretpassword
+            PGDATABASE: db_devlabs_test
+            JWT_SECRET: secret
+            JWT_EXPIRES_IN: 1d
+            JWT_REFRESH_TOKEN_SECRET: refresh_secret
+            JWT_REFRESH_TOKEN_EXPIRES_IN: 7d
+            REDIS_HOST: 127.0.0.1
+            REDIS_PORT: 6379
+            REDIS_INDEX: 0
