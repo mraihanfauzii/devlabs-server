@@ -105,6 +105,15 @@ class RatingsController {
       });
     }
 
+    const isRateeExist = await this.usersRepository.getUserById({ id: validatedPayload.data.ratee_id });
+    if (isRateeExist.error) {
+      return res.status(404).json({
+        success: false,
+        message: 'Ratee not found',
+        code: 404,
+      });
+    }
+
     const result = await this.ratingsRepository.getRatingsByRateeId(validatedPayload.data);
     if (result.error) {
       return res.status(404).json({
@@ -153,6 +162,15 @@ class RatingsController {
         success: false,
         message: validatedPayload.error,
         code: 400,
+      });
+    }
+
+    const isRaterExist = await this.usersRepository.getUserById({ id: validatedPayload.data.rater_id });
+    if (isRaterExist.error) {
+      return res.status(404).json({
+        success: false,
+        message: 'Rater not found',
+        code: 404,
       });
     }
 
@@ -254,6 +272,15 @@ class RatingsController {
         success: false,
         message: validatedPayload.error,
         code: 400,
+      });
+    }
+
+    const isRateeExist = await this.usersRepository.getUserById({ id: validatedPayload.data.ratee_id });
+    if (isRateeExist.error) {
+      return res.status(404).json({
+        success: false,
+        message: 'Ratee not found',
+        code: 404,
       });
     }
 

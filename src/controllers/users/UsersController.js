@@ -60,7 +60,6 @@ class UsersController {
     }
 
     const result = await this.usersRepository.getUserByEmailAndRole(validatedPayload.data);
-
     if (result.error) {
       return res.status(400).json({
         success: false,
@@ -70,7 +69,6 @@ class UsersController {
     }
 
     const isPasswordMatch = await comparePassword(validatedPayload.data.password, result.data[0].password);
-
     if (!isPasswordMatch) {
       return res.status(400).json({
         success: false,
@@ -115,11 +113,6 @@ class UsersController {
     }
 
     const result = await this.usersRepository.getAllUsers(validatedPayload.data);
-
-    result.data.forEach((user) => {
-      delete user.password;
-    });
-
     if (result.error) {
       return res.status(404).json({
         success: false,
@@ -127,6 +120,10 @@ class UsersController {
         code: 404,
       });
     }
+
+    result.data.forEach((user) => {
+      delete user.password;
+    });
 
     return res.status(200).json({
       success: true,

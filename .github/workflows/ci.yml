@@ -39,7 +39,7 @@ jobs:
           run: |
             npm install
             npm run migrate up
-            npm run test
+            npm run test:cover
           env:
             CI: true
             ENV: development

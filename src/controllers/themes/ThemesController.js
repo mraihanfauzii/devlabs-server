@@ -19,7 +19,7 @@ class ThemesController {
 
     for (const theme of themes.data) {
       const clicks = await this.themeClicksRepository.getClicksByThemeId({ theme_id: theme.id });
-      theme.click_count = Number(clicks.data[0].clicks) ?? 0;
+      theme.click_count = Number(clicks.data[0].clicks ?? 0);
     }
 
     return res.status(200).json({
@@ -56,7 +56,7 @@ class ThemesController {
     });
 
     const themeClicks = await this.themeClicksRepository.getClicksByThemeId({ theme_id: validatedPayload.data.id });
-    theme.data[0].click_count = Number(themeClicks.data[0].clicks) ?? 0;
+    theme.data[0].click_count = Number(themeClicks.data[0].clicks ?? 0);
 
     return res.status(200).json({
       success: true,
