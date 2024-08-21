@@ -8,9 +8,9 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "migrate": "node-pg-migrate",
-    "test": "jest --setupFiles dotenv/config -i",
-    "test:watch:change": "jest --watch --setupFiles dotenv/config -i",
-    "test:cover": "jest --coverage --setupFiles dotenv/config -i"
+    "test": "cross-env ENV=test jest --setupFiles dotenv/config -i",
+    "test:watch:change": "cross-env ENV=test jest --watch --setupFiles dotenv/config -i",
+    "test:cover": "cross-env ENV=test jest --coverage --setupFiles dotenv/config -i"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
@@ -30,6 +30,7 @@
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",
+    "cross-env": "^7.0.3",
     "eslint": "^8.57.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.29.1",

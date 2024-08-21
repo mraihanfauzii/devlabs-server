@@ -21,8 +21,9 @@ class DB {
       logger.info('Postgres database connected');
     });
 
-    // Attempt an initial connection to check if the database is reachable
-    this.initialConnect();
+    if (process.env.ENV !== 'test') {
+      this.initialConnect();
+    }
   }
 
   async initialConnect(retryTimeout = 5000) {
