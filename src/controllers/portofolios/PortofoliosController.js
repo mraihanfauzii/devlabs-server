@@ -154,7 +154,7 @@ class PortofoliosController {
       description: result.data[0].description,
       estimated_budget: result.data[0].estimated_budget,
       created_at: result.data[0].created_at,
-      click_count: Number(portofolioClicks.data[0].clicks) ?? 0,
+      click_count: Number(portofolioClicks.data[0].clicks ?? 0),
       attachments: attachments.data,
     };
 
@@ -194,7 +194,7 @@ class PortofoliosController {
         portofolio_id: portofolio.id,
       });
       portofolio.attachments = attachments.data;
-      portofolio.click_count = Number(clicks.data[0].clicks) ?? 0;
+      portofolio.click_count = Number(clicks.data[0].clicks ?? 0);
     }
 
     const mappedData = result.data.map((portofolio) => ({
