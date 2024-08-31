@@ -125,6 +125,10 @@ class projectsRepository {
           projects.status, 
           projects.client_id, 
           projects.vendor_id, 
+          users.profile_name,
+          users.profile_picture,
+          users.phonenumber,
+          users.role,
           transactions.id as transaction_id, 
           transactions.status as status_transaction, 
           transactions.price, 
@@ -134,6 +138,7 @@ class projectsRepository {
         FROM projects 
         LEFT JOIN transactions on projects.transaction_id=transactions.id
         LEFT JOIN projectdetail on projects.detail_id=projectdetail.id
+        LEFT JOIN users on projects.vendor_id = users.id
         WHERE projects.id = $1`,
       values: [id],
     };
