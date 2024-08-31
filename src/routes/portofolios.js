@@ -47,6 +47,7 @@ router.put('/:id', authMiddleware, roleMiddleware(['architect', 'admin']), uploa
 router.get('/', authMiddleware, (req, res) => portofoliosController.getUserPortofolios(req, res));
 router.get('/trending', authMiddleware, (req, res) => portofoliosController.getTrendingPortofolios(req, res));
 router.get('/recent', authMiddleware, (req, res) => portofoliosController.getRecentPortofolios(req, res));
+router.get('/recommend', authMiddleware, (req, res) => portofoliosController.getRecommendedPortofolios(req, res));
 router.get('/favourite', authMiddleware, (req, res) => portofoliosController.getPortofolioFavourites(req, res));
 router.post('/favourite', authMiddleware, (req, res) => portofoliosController.favouritePortofolio(req, res));
 
