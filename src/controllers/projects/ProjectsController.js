@@ -393,22 +393,21 @@ class ProjectsController {
   }
 
   async getRecommendedArchitects(req, res) {
-    const payload = { id: req.user.id, ...req.params };
+    const payload = { ...req.body };
+    const validatedPayload = validator.validatePayload(projectsSchema.getRecommendedArchitects, payload);
+    if (validatedPayload.error) {
+      return res.status(400).json({
+        success: false,
+        message: validatedPayload.error,
+        code: 400,
+      });
+    }
 
     const architects = await this.usersRepository.getAllUsers({ role: 'architect' });
     if (architects.error) {
       return res.status(404).json({
         success: false,
         message: 'Architects not found',
-        code: 404,
-      });
-    }
-
-    const project = await this.projectsRepository.getProjectsById({ id: payload.project_id });
-    if (project.error) {
-      return res.status(404).json({
-        success: false,
-        message: 'Project not found',
         code: 404,
       });
     }
@@ -421,7 +420,7 @@ class ProjectsController {
     const recommendationRequest = await this.fetchRecommendation({
       url: `${recommenderServiceUrl}/api/architects/recommend`,
       data: {
-        project: project.data[0],
+        project: payload,
         architects: architects.data,
       },
     });

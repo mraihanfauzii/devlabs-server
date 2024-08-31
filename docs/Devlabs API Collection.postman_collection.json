@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "0a540857-caf1-4418-9fcf-d1c1861f59e2",
+		"_postman_id": "2e2af66b-1931-4334-bd04-fb1bfd79a4ce",
 		"name": "Devlabs API Collection Copy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "27413904"
+		"_exporter_id": "23731200"
 	},
 	"item": [
 		{
@@ -497,7 +497,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{DOMAIN}}/api/v1/projects/32222c8b-82ee-4956-822c-30f02e301cbc",
+							"raw": "{{DOMAIN}}/api/v1/projects/f4c4c4c4-4c4c-5c4c-4c4c-4c4c4c4c4c8f",
 							"host": [
 								"{{DOMAIN}}"
 							],
@@ -505,7 +505,7 @@
 								"api",
 								"v1",
 								"projects",
-								"32222c8b-82ee-4956-822c-30f02e301cbc"
+								"f4c4c4c4-4c4c-5c4c-4c4c-4c4c4c4c4c8f"
 							]
 						}
 					},
@@ -556,7 +556,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{DOMAIN}}/api/v1/projects/a58571ec-2a55-45b7-ab95-150c4af5e9a2",
+							"raw": "{{DOMAIN}}/api/v1/projects/93e6cbee-3936-45b4-8e17-5e884ac7e486",
 							"host": [
 								"{{DOMAIN}}"
 							],
@@ -564,7 +564,7 @@
 								"api",
 								"v1",
 								"projects",
-								"a58571ec-2a55-45b7-ab95-150c4af5e9a2"
+								"93e6cbee-3936-45b4-8e17-5e884ac7e486"
 							]
 						}
 					},
@@ -996,6 +996,45 @@
 								"projects",
 								"lampiran",
 								"bb7966c6-511f-4a46-b5dd-bc06f0082296"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Recommended Architects By Project ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"area\": 1000,\r\n    \"city\": \"Bandung\",\r\n    \"theme\": \"Asian\",\r\n    \"budget\": \"251 juta - 500 juta\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/projects/recommended-architects",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"projects",
+								"recommended-architects"
 							]
 						}
 					},
@@ -1767,6 +1806,39 @@
 								"v1",
 								"themes",
 								"trending"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Recommender Service",
+			"item": [
+				{
+					"name": "Get Architect Recommendation",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"id\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{RECOMMENDER_DOMAIN}}/api/architects/recommend",
+							"host": [
+								"{{RECOMMENDER_DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"architects",
+								"recommend"
 							]
 						}
 					},
