@@ -1236,6 +1236,9 @@ describe('PortofoliosController', () => {
         }],
       });
 
+      portofolioAttachmentsRepository.getPortofolioAttachmentsByPortofolioId = jest.fn()
+        .mockResolvedValue({ error: false, data: [{ id: 'id' }] });
+
       const portofoliosController = new PortofoliosController(
         portofoliosRepository,
         portofolioAttachmentsRepository,
@@ -1282,6 +1285,9 @@ describe('PortofoliosController', () => {
           click_count: 0,
         }],
       });
+
+      portofolioAttachmentsRepository.getPortofolioAttachmentsByPortofolioId = jest.fn()
+        .mockResolvedValue({ error: true, data: null });
 
       const portofoliosController = new PortofoliosController(
         portofoliosRepository,
@@ -1392,6 +1398,9 @@ describe('PortofoliosController', () => {
         }],
       });
 
+      portofolioAttachmentsRepository.getPortofolioAttachmentsByPortofolioId = jest.fn()
+        .mockResolvedValue({ error: false, data: [{ id: 'id' }] });
+
       const portofoliosController = new PortofoliosController(
         portofoliosRepository,
         portofolioAttachmentsRepository,
@@ -1438,6 +1447,9 @@ describe('PortofoliosController', () => {
           click_count: 0,
         }],
       });
+
+      portofolioAttachmentsRepository.getPortofolioAttachmentsByPortofolioId = jest.fn()
+        .mockResolvedValue({ error: true, data: null });
 
       const portofoliosController = new PortofoliosController(
         portofoliosRepository,
@@ -1551,6 +1563,9 @@ describe('PortofoliosController', () => {
         }],
       });
 
+      portofolioAttachmentsRepository.getPortofolioAttachmentsByPortofolioId = jest.fn()
+        .mockResolvedValue({ error: false, data: [{ id: 'id' }] });
+
       const portofoliosController = new PortofoliosController(
         portofoliosRepository,
         portofolioAttachmentsRepository,
@@ -1598,6 +1613,9 @@ describe('PortofoliosController', () => {
           click_count: 0,
         }],
       });
+
+      portofolioAttachmentsRepository.getPortofolioAttachmentsByPortofolioId = jest.fn()
+        .mockResolvedValue({ error: true, data: null });
 
       const portofoliosController = new PortofoliosController(
         portofoliosRepository,
