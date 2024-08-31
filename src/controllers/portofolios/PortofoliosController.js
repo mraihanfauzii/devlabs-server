@@ -4,7 +4,7 @@ const logger = require('../../utils/logger');
 const portofoliosSchema = require('../../validator/portofolios/portofoliosSchema');
 const dataWrapper = require('../../utils/dataWrapper');
 
-const recommenderServiceUrl = process.env.RECOMMENDER_SERVICE_URL || 'http://localhost:5000';
+const recommenderServiceUrl = process.env.RECOMMENDER_SYSTEM_HOST || 'http://localhost:5000';
 
 class PortofoliosController {
   constructor(
