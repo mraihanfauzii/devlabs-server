@@ -9,7 +9,7 @@ exports.shorthands = undefined;
  * @returns {Promise<void> | void}
  */
 exports.up = (pgm) => {
-    pgm.sql(`
+  pgm.sql(`
     INSERT INTO portofolios (id, architect_id, name, description, theme_id, estimated_budget)
     VALUES
     ('130ab61f-54e1-47df-8674-4b0ad473fc72', '1d831d2a-4b68-431b-ae76-ddecd85e967e', 'Modern Home Design', 'A modern home design with a focus on minimalism and functionality.', (SELECT id FROM themes WHERE name = 'Modern'), 100000),
@@ -48,10 +48,6 @@ exports.up = (pgm) => {
     ('5049d2c6-9df0-4d3d-9d18-ddc63beb408e', '3b16c9f5-b64a-4b3e-8c5e-bd94f5f48a3a', 'Asian Retreat Home', 'A modern tropical retreat home design that offers a peaceful and serene environment.', (SELECT id FROM themes WHERE name = 'Tropical'), 2400000),
     ('6049d2c6-9df0-4d3d-9d18-ddc63beb408e', '4b21f7c4-8de5-44db-9b13-81b3e20fc3d0', 'Traditional Manor Home', 'A modern traditional manor home design with classic architectural details and timeless elegance.', (SELECT id FROM themes WHERE name = 'Traditional'), 2500000),
     ('7049d2c6-9df0-4d3d-9d18-ddc63beb408e', '5d8d4b55-41c3-4651-b2ff-68d7e0a1c2eb', 'Traditional Cottage Home', 'A modern traditional cottage home design with a cozy and charming atmosphere.', (SELECT id FROM themes WHERE name = 'Traditional'), 2600000),
-    ('9049d2c6-9df0-4d3d-9d18-ddc63beb408e', '7d7b4e4b-5c0d-4733-bcb6-674e3b569b5c', 'Contemporary Loft Home', 'A modern contemporary loft home design with an open floor plan and industrial accents.', (SELECT id FROM themes WHERE name = 'Contemporary'), 2800000),
-    ('0049d2c6-9df0-4d3d-9d18-ddc63beb408e', '8d8e6e77-6e18-4b2a-91c6-70b0e544b9df', 'Contemporary Penthouse Home', 'A modern contemporary penthouse home design with panoramic views and luxurious amenities.', (SELECT id FROM themes WHERE name = 'Contemporary'), 2900000),
-    ('1049d2c6-9df0-4d3d-9d18-ddc63beb408e', '9e7e7b6e-7f3d-4d19-8bdf-7196a577fa36', 'Contemporary Townhouse Home', 'A modern contemporary townhouse home design with a sleek and modern aesthetic.', (SELECT id FROM themes WHERE name = 'Contemporary'), 3000000),
-    ('2049d2c6-9df0-4d3d-9d18-ddc63beb408e', '1f9b9b7b-9f29-4d1f-9c69-92b4bcb4a0b6', 'Victorian Mansion Home', 'A modern victorian mansion home design with ornate details and grandeur.', (SELECT id FROM themes WHERE name = 'Victorian'), 3100000),
     ('3149d2c6-9df0-4d3d-9d18-ddc63beb408e', '2fa67d94-af88-4fa7-8d99-a327f9d7a38e', 'Victorian Cottage Home', 'A modern victorian cottage home design with charming features and a cozy atmosphere.', (SELECT id FROM themes WHERE name = 'Victorian'), 3200000),
     ('4249d2c6-9df0-4d3d-9d18-ddc63beb408e', '3f9c7d86-bfa8-47a6-a5df-b1b7f3b7bfa6', 'Victorian Townhouse Home', 'A modern victorian townhouse home design with elegant architecture and timeless style.', (SELECT id FROM themes WHERE name = 'Victorian'), 3300000);
   `);
@@ -95,10 +91,6 @@ exports.up = (pgm) => {
     ('5049d2c6-9df0-4d3d-9d18-ddc63beb408e', 'depositphotos_494372922-stock-photo-mock-poster-frame-modern-interior.jpg', '/api/v1/portofolios/attachments/depositphotos_494372922-stock-photo-mock-poster-frame-modern-interior.jpg'),
     ('6049d2c6-9df0-4d3d-9d18-ddc63beb408e', 'depositphotos_77665932-stock-photo-large-modern-house-with-stone.jpg', '/api/v1/portofolios/attachments/depositphotos_77665932-stock-photo-large-modern-house-with-stone.jpg'),
     ('7049d2c6-9df0-4d3d-9d18-ddc63beb408e', 'empty-white-wooden-wall-on-wooden-floor-interior-design-3d-rendering-free-photo.jpg', '/api/v1/portofolios/attachments/empty-white-wooden-wall-on-wooden-floor-interior-design-3d-rendering-free-photo.jpg'),
-    ('9049d2c6-9df0-4d3d-9d18-ddc63beb408e', 'depositphotos_77665932-stock-photo-large-modern-house-with-stone.jpg', '/api/v1/portofolios/attachments/depositphotos_77665932-stock-photo-large-modern-house-with-stone.jpg'),
-    ('0049d2c6-9df0-4d3d-9d18-ddc63beb408e', 'empty-white-wooden-wall-on-wooden-floor-interior-design-3d-rendering-free-photo.jpg', '/api/v1/portofolios/attachments/empty-white-wooden-wall-on-wooden-floor-interior-design-3d-rendering-free-photo.jpg'),
-    ('1049d2c6-9df0-4d3d-9d18-ddc63beb408e', 'depositphotos_494372922-stock-photo-mock-poster-frame-modern-interior.jpg', '/api/v1/portofolios/attachments/depositphotos_494372922-stock-photo-mock-poster-frame-modern-interior.jpg'),
-    ('2049d2c6-9df0-4d3d-9d18-ddc63beb408e', 'depositphotos_77665932-stock-photo-large-modern-house-with-stone.jpg', '/api/v1/portofolios/attachments/depositphotos_77665932-stock-photo-large-modern-house-with-stone.jpg'),
     ('3149d2c6-9df0-4d3d-9d18-ddc63beb408e', 'empty-white-wooden-wall-on-wooden-floor-interior-design-3d-rendering-free-photo.jpg', '/api/v1/portofolios/attachments/empty-white-wooden-wall-on-wooden-floor-interior-design-3d-rendering-free-photo.jpg'),
     ('4249d2c6-9df0-4d3d-9d18-ddc63beb408e', 'depositphotos_494372922-stock-photo-mock-poster-frame-modern-interior.jpg', '/api/v1/portofolios/attachments/depositphotos_494372922-stock-photo-mock-poster-frame-modern-interior.jpg');
   `);
@@ -110,7 +102,7 @@ exports.up = (pgm) => {
  * @returns {Promise<void> | void}
  */
 exports.down = (pgm) => {
-    pgm.sql(`
+  pgm.sql(`
     DELETE FROM portofolios
     WHERE id IN (
       '130ab61f-54e1-47df-8674-4b0ad473fc72',
@@ -149,10 +141,6 @@ exports.down = (pgm) => {
       '5049d2c6-9df0-4d3d-9d18-ddc63beb408e',
       '6049d2c6-9df0-4d3d-9d18-ddc63beb408e',
       '7049d2c6-9df0-4d3d-9d18-ddc63beb408e',
-      '9049d2c6-9df0-4d3d-9d18-ddc63beb408e',
-      '0049d2c6-9df0-4d3d-9d18-ddc63beb408e',
-      '1049d2c6-9df0-4d3d-9d18-ddc63beb408e',
-      '2049d2c6-9df0-4d3d-9d18-ddc63beb408e',
       '3149d2c6-9df0-4d3d-9d18-ddc63beb408e',
       '4249d2c6-9df0-4d3d-9d18-ddc63beb408e'
     );
