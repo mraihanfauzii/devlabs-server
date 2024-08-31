@@ -20,6 +20,8 @@ const updateUserProfile = Joi.object({
   profile_picture: Joi.array().max(1),
   profile_description: Joi.string().required(),
   phonenumber: Joi.string().required(),
+  city: Joi.string().optional(),
+  rate: Joi.number().integer().optional(),
 });
 
 const logout = Joi.object({
