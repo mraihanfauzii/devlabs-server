@@ -113,4 +113,54 @@ exports.up = (pgm) => {
  * @param run {() => void | undefined}
  * @returns {Promise<void> | void}
  */
-exports.down = (pgm) => {};
+exports.down = (pgm) => {
+    pgm.sql(`
+    DELETE FROM portofolios
+    WHERE id IN (
+      '130ab61f-54e1-47df-8674-4b0ad473fc72',
+      '25b18497-2552-47b6-a0dd-e50047fc70ed',
+      '3765718c-f23a-46b3-a27d-7cb7d4b6590c',
+      '41227778-659e-42e6-a0a6-2b8575b1f328',
+      '5f79aa65-8f33-4f6e-a7c0-69e222d06fe8',
+      '67ab02a5-2f88-4591-bb46-0dc491832d38',
+      '732760dd-5373-4283-b22c-e4cadd110fb0',
+      '87004559-d680-4c8e-aba0-b3e339303977',
+      '9987dc75-ec65-422d-a9f3-4b1ccc2a4e87',
+      '010112af-a82e-4048-b801-c799610e7eef',
+      '144c9928-c1db-46ad-ae30-07b3b274effc',
+      '2fd443c1-157f-40c7-b4c1-c61ebe03af22',
+      '34e4e316-f33e-4875-8101-a8e640663f19',
+      '40253382-d117-4916-8c8f-9f9033f6c1ff',
+      '587282e6-a331-4a12-b5e5-bcdca2bc903d',
+      '671a2a6c-5a7f-4e93-a7f5-1c7cb11024c0',
+      '7b010534-f488-4891-b988-dd313d07e75c',
+      '85b75f4e-1ee1-453b-9b08-94d8ab63f8dc',
+      '90c9ab8c-870c-43e0-a1db-fe8653d9ab04',
+      '0b61481d-4cfc-4080-972d-70b0af306492',
+      '1238962b-ca4b-418e-afa3-8bcf40772064',
+      '24f594a4-2c3f-46cd-b5cd-0ab80393480a',
+      '35e3c1f3-2c7f-4f6e-8c2f-0c7b0f6e3a8d',
+      '41c2f4c4-4c4c-4c4c-4c4c-4c4c4c4c4c4e',
+      '54c4c4c4-4c4c-4c4c-4c4c-4c4c4c4c4c4f',
+      '64c4c4c4-4c4c-4c4c-4c4c-4c4c4c4c4c4f',
+      '74c4c4c4-4c4c-4c4c-4c4c-4c4c4c4c4c4f',
+      '8049d2c6-9df0-4d3d-9d18-ddc63beb408e',
+      '9049d2c6-9df0-4d3d-9d18-ddc63beb408e',
+      '0049d2c6-9df0-4d3d-9d18-ddc63beb408e',
+      '1049d2c6-9df0-4d3d-9d18-ddc63beb408e',
+      '2049d2c6-9df0-4d3d-9d18-ddc63beb408e',
+      '3049d2c6-9df0-4d3d-9d18-ddc63beb408e',
+      '4049d2c6-9df0-4d3d-9d18-ddc63beb408e',
+      '5049d2c6-9df0-4d3d-9d18-ddc63beb408e',
+      '6049d2c6-9df0-4d3d-9d18-ddc63beb408e',
+      '7049d2c6-9df0-4d3d-9d18-ddc63beb408e',
+      '8049d2c6-9df0-4d3d-9d18-ddc63beb408e',
+      '9049d2c6-9df0-4d3d-9d18-ddc63beb408e',
+      '0049d2c6-9df0-4d3d-9d18-ddc63beb408e',
+      '1049d2c6-9df0-4d3d-9d18-ddc63beb408e',
+      '2049d2c6-9df0-4d3d-9d18-ddc63beb408e',
+      '3149d2c6-9df0-4d3d-9d18-ddc63beb408e',
+      '4249d2c6-9df0-4d3d-9d18-ddc63beb408e'
+    );
+  `);
+};
