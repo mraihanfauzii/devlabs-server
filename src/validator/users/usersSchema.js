@@ -5,13 +5,13 @@ const registerUser = Joi.object({
   email: Joi.string().email().required(),
   password: Joi.string().min(8).required(),
   phonenumber: Joi.string().required(),
-  role: Joi.string().required().valid('admin', 'client', 'architect', 'builder'),
+  role: Joi.string().required().valid('admin', 'client', 'architect', 'builder', 'contractor'),
 });
 
 const loginUser = Joi.object({
   email: Joi.string().email().required(),
   password: Joi.string().min(8).required(),
-  role: Joi.string().required().valid('admin', 'client', 'architect', 'builder'),
+  role: Joi.string().required().valid('admin', 'client', 'architect', 'builder', 'contractor'),
 });
 
 const updateUserProfile = Joi.object({
@@ -33,7 +33,7 @@ const refreshToken = Joi.object({
 });
 
 const getAllUsers = Joi.object({
-  role: Joi.string().valid('admin', 'client', 'architect', 'builder').optional(),
+  role: Joi.string().valid('admin', 'client', 'architect', 'builder', 'contractor').optional(),
 });
 
 module.exports = {
