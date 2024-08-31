@@ -30,5 +30,7 @@ router.get('/:id/info', authMiddleware, (req, res) => projectsController.getInfo
 router.put('/info/:id', authMiddleware, (req, res) => projectsController.updateInfoById(req, res));
 router.delete('/info/:id', authMiddleware, (req, res) => projectsController.deleteInfoById(req, res));
 
+router.get('/recommended-architects/:project_id', authMiddleware, (req, res) => projectsController.getRecommendedArchitects(req, res));
+
 
 module.exports = router;

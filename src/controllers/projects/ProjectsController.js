@@ -1,10 +1,27 @@
+const axios = require('axios');
+const logger = require('../../utils/logger');
+const dataWrapper = require('../../utils/dataWrapper');
 const validator = require('../../validator');
 const projectsSchema = require('../../validator/projects/projectsSchema');
+
+const recommenderServiceUrl = process.env.RECOMMENDER_SYSTEM_HOST || 'http://localhost:5000';
 
 class ProjectsController {
   constructor(projectsRepository, usersRepository) {
     this.projectsRepository = projectsRepository;
     this.usersRepository = usersRepository;
+  }
+
+  async fetchRecommendation(payload) {
+    const { url, data } = payload;
+    try {
+      logger.info(`Fetching data to ${url}`);
+      const response = await axios.default.post(url, data);
+      return dataWrapper.data(response.data);
+    } catch (err) {
+      logger.error('Failed to fetch data', err);
+      return dataWrapper.error('Failed to fetch data');
+    }
   }
 
   async addProject(req, res) {
@@ -293,7 +310,7 @@ class ProjectsController {
     });
   }
 
-  async addInfoByProjectId(req, res){
+  async addInfoByProjectId(req, res) {
     const { id } = req.params;
     const payload = { ...req.body };
     const projects = await this.projectsRepository.addInfoByProjectId(payload, { id });
@@ -314,7 +331,7 @@ class ProjectsController {
     });
   }
 
-  async getInfoByProjectId(req, res){
+  async getInfoByProjectId(req, res) {
     const { id } = req.params;
     const projects = await this.projectsRepository.getInfoByProjectId({ id });
 
@@ -334,7 +351,7 @@ class ProjectsController {
     });
   }
 
-  async updateInfoById(req, res){
+  async updateInfoById(req, res) {
     const { id } = req.params;
     const payload = { ...req.body };
     const projects = await this.projectsRepository.updateInfoById(payload, { id });
@@ -355,7 +372,7 @@ class ProjectsController {
     });
   }
 
-  async deleteInfoById(req, res){
+  async deleteInfoById(req, res) {
     const { id } = req.params;
     const projects = await this.projectsRepository.deleteInfoById({ id });
 
@@ -372,6 +389,55 @@ class ProjectsController {
       message: 'Success deleted infomation',
       code: 200,
       data: projects.data,
+    });
+  }
+
+  async getRecommendedArchitects(req, res) {
+    const payload = { id: req.user.id, ...req.params };
+
+    const architects = await this.usersRepository.getAllUsers({ role: 'architect' });
+    if (architects.error) {
+      return res.status(404).json({
+        success: false,
+        message: 'Architects not found',
+        code: 404,
+      });
+    }
+
+    const project = await this.projectsRepository.getProjectsById({ id: payload.project_id });
+    if (project.error) {
+      return res.status(404).json({
+        success: false,
+        message: 'Project not found',
+        code: 404,
+      });
+    }
+
+    for (const architect of architects.data) {
+      const mostFrequentTheme = await this.usersRepository.getArchitectMostFrequentTheme({ id: architect.id });
+      architect.most_frequent_theme = mostFrequentTheme.data ? mostFrequentTheme.data[0].name : null;
+    }
+
+    const recommendationRequest = await this.fetchRecommendation({
+      url: `${recommenderServiceUrl}/api/architects/recommend`,
+      data: {
+        project: project.data[0],
+        architects: architects.data,
+      },
+    });
+    if (recommendationRequest.error) {
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to fetch recommended architects',
+        code: 500,
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'Recommended architects successfully fetched',
+      code: 200,
+      data: recommendationRequest.data.data,
     });
   }
 }

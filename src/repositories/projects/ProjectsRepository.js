@@ -306,7 +306,7 @@ class projectsRepository {
     return result;
   }
 
-  async addInfoByProjectId(data, id){
+  async addInfoByProjectId(data, id) {
     const { name, value } = data
     console.log(name, value, id.id)
 
@@ -321,7 +321,7 @@ class projectsRepository {
     return result;
   }
 
-  async getInfoByProjectId(id){
+  async getInfoByProjectId(id) {
     console.log(id.id)
     const query = {
       text: `
@@ -335,7 +335,7 @@ class projectsRepository {
     return result;
   }
 
-  async updateInfoById(data, id){
+  async updateInfoById(data, id) {
     const { name, value } = data
     console.log(name, value, id.id)
 
@@ -347,7 +347,7 @@ class projectsRepository {
         RETURNING *`,
       values: [id.id, name, value],
     };
-    
+
     const result = await db.command(query);
     return result;
   }
@@ -360,11 +360,11 @@ class projectsRepository {
         RETURNING *`,
       values: [id.id],
     };
-    
+
     const result = await db.command(query);
     return result;
-}
-  
+  }
+
 }
 
 module.exports = projectsRepository;

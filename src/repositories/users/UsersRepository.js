@@ -85,6 +85,25 @@ class UsersRepository {
     const result = await db.command(query);
     return result;
   }
+
+  async getArchitectMostFrequentTheme(data) {
+    const { id } = data;
+
+    const query = {
+      text: `
+        SELECT t.name, COUNT(t.id) as total
+        FROM portofolios p
+        LEFT JOIN themes t ON p.theme_id = t.id
+        WHERE p.architect_id = $1
+        GROUP BY t.name
+        ORDER BY total DESC
+        LIMIT 1`,
+      values: [id],
+    };
+
+    const result = await db.query(query);
+    return result;
+  }
 }
 
 module.exports = UsersRepository;
