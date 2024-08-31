@@ -1,5 +1,10 @@
+const axios = require('axios');
 const validator = require('../../validator');
+const logger = require('../../utils/logger');
 const portofoliosSchema = require('../../validator/portofolios/portofoliosSchema');
+const dataWrapper = require('../../utils/dataWrapper');
+
+const recommenderServiceUrl = process.env.RECOMMENDER_SYSTEM_HOST || 'http://localhost:5000';
 
 class PortofoliosController {
   constructor(
@@ -18,6 +23,18 @@ class PortofoliosController {
     this.userRepository = userRepository;
     this.storageRepository = storageRepository;
     this.themesRepository = themesRepository;
+  }
+
+  async fetchRecommendation(payload) {
+    const { url, data } = payload;
+    try {
+      logger.info(`Fetching portofolio recommendations to ${url}`);
+      const response = await axios.default.post(url, data);
+      return dataWrapper.data(response.data);
+    } catch (err) {
+      logger.error('Failed to get portofolio recommendations', err);
+      return dataWrapper.error('Failed to get portofolio recommendations');
+    }
   }
 
   async createPortofolio(req, res) {
@@ -612,6 +629,36 @@ class PortofoliosController {
       success: true,
       message: 'Portofolio successfully favourited',
       code: 201,
+    });
+  }
+
+  async getRecommendedPortofolios(req, res) {
+    const portofolio = await this.portofoliosRepository.getRecentPortofolios({});
+    if (portofolio.error) {
+      return res.status(404).json({
+        success: false,
+        message: 'Portofolios not found',
+        code: 404,
+      });
+    }
+
+    const recommendationRequest = await this.fetchRecommendation({
+      url: `${recommenderServiceUrl}/api/recommend`,
+      data: portofolio.data,
+    });
+    if (recommendationRequest.error) {
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to get recommended portofolios',
+        code: 500,
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'Recommended portofolios found',
+      code: 200,
+      data: recommendationRequest.data.data,
     });
   }
 }
