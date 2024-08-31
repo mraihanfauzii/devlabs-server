@@ -412,6 +412,13 @@ class PortofoliosController {
       });
     }
 
+    for (const portofolio of result.data) {
+      const attachments = await this.portofolioAttachmentsRepository.getPortofolioAttachmentsByPortofolioId({
+        portofolio_id: portofolio.id,
+      });
+      portofolio.attachments = attachments.data;
+    }
+
     const mappedData = result.data.map((portofolio) => ({
       id: portofolio.id,
       architect: portofolio.architect_id ? {
@@ -429,6 +436,7 @@ class PortofoliosController {
       estimated_budget: portofolio.estimated_budget,
       created_at: portofolio.created_at,
       click_count: portofolio.click_count,
+      attachments: portofolio.attachments,
     }));
 
     return res.status(200).json({
@@ -460,6 +468,13 @@ class PortofoliosController {
       });
     }
 
+    for (const portofolio of result.data) {
+      const attachments = await this.portofolioAttachmentsRepository.getPortofolioAttachmentsByPortofolioId({
+        portofolio_id: portofolio.id,
+      });
+      portofolio.attachments = attachments.data;
+    }
+
     const mappedData = result.data.map((portofolio) => ({
       id: portofolio.id,
       architect: portofolio.architect_id ? {
@@ -477,6 +492,7 @@ class PortofoliosController {
       estimated_budget: portofolio.estimated_budget,
       created_at: portofolio.created_at,
       click_count: portofolio.click_count,
+      attachments: portofolio.attachments,
     }));
 
     return res.status(200).json({
@@ -507,6 +523,13 @@ class PortofoliosController {
       });
     }
 
+    for (const portofolio of result.data) {
+      const attachments = await this.portofolioAttachmentsRepository.getPortofolioAttachmentsByPortofolioId({
+        portofolio_id: portofolio.id,
+      });
+      portofolio.attachments = attachments.data;
+    }
+
     const mappedData = result.data.map((portofolio) => ({
       id: portofolio.id,
       architect: portofolio.architect_id ? {
@@ -524,6 +547,7 @@ class PortofoliosController {
       estimated_budget: portofolio.estimated_budget,
       created_at: portofolio.created_at,
       click_count: portofolio.click_count,
+      attachments: portofolio.attachments,
     }));
 
     return res.status(200).json({
