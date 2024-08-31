@@ -13,6 +13,7 @@
     "test:cover": "cross-env ENV=test jest --coverage --setupFiles dotenv/config -i"
   },
   "dependencies": {
+    "axios": "^1.7.6",
     "bcrypt": "^5.1.1",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
