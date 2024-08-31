@@ -292,6 +292,88 @@ class ProjectsController {
       data: projects.data,
     });
   }
+
+  async addInfoByProjectId(req, res){
+    const { id } = req.params;
+    const payload = { ...req.body };
+    const projects = await this.projectsRepository.addInfoByProjectId(payload, { id });
+
+    if (projects.error) {
+      return res.status(404).json({
+        success: false,
+        message: 'Projects not found',
+        code: 404,
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'All projects successfully fetched',
+      code: 200,
+      data: projects.data,
+    });
+  }
+
+  async getInfoByProjectId(req, res){
+    const { id } = req.params;
+    const projects = await this.projectsRepository.getInfoByProjectId({ id });
+
+    if (projects.error) {
+      return res.status(404).json({
+        success: false,
+        message: 'Projects not found',
+        code: 404,
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'All projects successfully fetched',
+      code: 200,
+      data: projects.data,
+    });
+  }
+
+  async updateInfoById(req, res){
+    const { id } = req.params;
+    const payload = { ...req.body };
+    const projects = await this.projectsRepository.updateInfoById(payload, { id });
+
+    if (projects.error) {
+      return res.status(404).json({
+        success: false,
+        message: 'Projects not found',
+        code: 404,
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'Success update infomation',
+      code: 200,
+      data: projects.data,
+    });
+  }
+
+  async deleteInfoById(req, res){
+    const { id } = req.params;
+    const projects = await this.projectsRepository.deleteInfoById({ id });
+
+    if (projects.error) {
+      return res.status(404).json({
+        success: false,
+        message: 'Projects not found',
+        code: 404,
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'Success deleted infomation',
+      code: 200,
+      data: projects.data,
+    });
+  }
 }
 
 module.exports = ProjectsController;

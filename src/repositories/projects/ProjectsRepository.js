@@ -129,9 +129,11 @@ class projectsRepository {
           transactions.status as status_transaction, 
           transactions.price, 
           transactions.tax, 
-          transactions.amount
+          transactions.amount,
+          projectdetail.*
         FROM projects 
         LEFT JOIN transactions on projects.transaction_id=transactions.id
+        LEFT JOIN projectdetail on projects.detail_id=projectdetail.id
         WHERE projects.id = $1`,
       values: [id],
     };
@@ -298,6 +300,66 @@ class projectsRepository {
     await db.command(query2);
     return result;
   }
+
+  async addInfoByProjectId(data, id){
+    const { name, value } = data
+    console.log(name, value, id.id)
+
+    const query = {
+      text: `
+        INSERT INTO additionaldetail (project_id, name, "value")
+        VALUES ($1, $2, $3)
+        RETURNING *`,
+      values: [id.id, name, value],
+    };
+    const result = await db.command(query);
+    return result;
+  }
+
+  async getInfoByProjectId(id){
+    console.log(id.id)
+    const query = {
+      text: `
+        SELECT *
+        FROM additionaldetail
+        WHERE project_id = $1`,
+      values: [id.id],
+    };
+
+    const result = await db.query(query);
+    return result;
+  }
+
+  async updateInfoById(data, id){
+    const { name, value } = data
+    console.log(name, value, id.id)
+
+    const query = {
+      text: `
+        UPDATE additionaldetail
+        SET name = $2, "value" = $3
+        WHERE id = $1
+        RETURNING *`,
+      values: [id.id, name, value],
+    };
+    
+    const result = await db.command(query);
+    return result;
+  }
+
+  async deleteInfoById(id) {
+    const query = {
+      text: `
+        DELETE FROM additionaldetail
+        WHERE id = $1
+        RETURNING *`,
+      values: [id.id],
+    };
+    
+    const result = await db.command(query);
+    return result;
+}
+  
 }
 
 module.exports = projectsRepository;
