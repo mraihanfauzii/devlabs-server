@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "00f83644-a84d-4f68-a165-8e68d46c133e",
-		"name": "Devlabs API Collection",
+		"_postman_id": "0a540857-caf1-4418-9fcf-d1c1861f59e2",
+		"name": "Devlabs API Collection Copy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "23731200"
+		"_exporter_id": "27413904"
 	},
 	"item": [
 		{
@@ -59,7 +59,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "// {\r\n//     \"email\": \"client@gmail.com\",\r\n//     \"password\": \"12345678\",\r\n//     \"role\": \"client\"\r\n// }\r\n{\r\n    \"email\": \"architect@gmail.com\",\r\n    \"password\": \"12345678\",\r\n    \"role\": \"architect\"\r\n}\r\n// {\r\n//     \"email\": \"sarah.jones@example.com\",\r\n//     \"password\": \"12345678\",\r\n//     \"role\": \"client\"\r\n// }",
+							"raw": "// {\r\n//     \"email\": \"client@gmail.com\",\r\n//     \"password\": \"12345678\",\r\n//     \"role\": \"client\"\r\n// }\r\n{\r\n    \"email\": \"architect@gmail.com\",\r\n    \"password\": \"12345678\",\r\n    \"role\": \"architect\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -106,13 +106,6 @@
 								"v1",
 								"users",
 								"list"
-							],
-							"query": [
-								{
-									"key": "role",
-									"value": "architect",
-									"disabled": true
-								}
 							]
 						}
 					},
@@ -167,23 +160,23 @@
 							"formdata": [
 								{
 									"key": "profile_name",
-									"value": "Sarah Jones",
+									"value": "edited architect",
 									"type": "text"
 								},
 								{
 									"key": "profile_description",
-									"value": "Client looking for a cozy and inviting home.",
+									"value": "im best architect",
 									"type": "text"
 								},
 								{
 									"key": "phonenumber",
-									"value": "081234567895",
+									"value": "02223214",
 									"type": "text"
 								},
 								{
 									"key": "profile_picture",
 									"type": "file",
-									"src": "/C:/Users/Rieza/Pictures/test.jpg"
+									"src": "/C:/Users/Rieza/Pictures/meme/2cuz39m1jm471.jpg"
 								}
 							]
 						},
@@ -298,7 +291,186 @@
 			]
 		},
 		{
-			"name": "Projects",
+			"name": "Payment Copy",
+			"item": [
+				{
+					"name": "Get all payment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/payments",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"payments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all payment by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/payments/5efa6efc-52d6-4ca4-bc0a-38a0caf85ef7",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"payments",
+								"5efa6efc-52d6-4ca4-bc0a-38a0caf85ef7"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transactions Copy",
+			"item": [
+				{
+					"name": "Create New Transaction",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"price\": 1000000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/transactions/63e8a796-d723-43de-a93a-affd8a7f0256/create",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"transactions",
+								"63e8a796-d723-43de-a93a-affd8a7f0256",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transaction By project Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/transactions/96b75986-0ca6-4847-a37a-078e2bd7a34f",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"transactions",
+								"96b75986-0ca6-4847-a37a-078e2bd7a34f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pay Transaction ny project id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"payment_method\": \"11e7f044-fd1e-4dff-81c2-a54e96998f13\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/transactions/63e8a796-d723-43de-a93a-affd8a7f0256/pay",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"transactions",
+								"63e8a796-d723-43de-a93a-affd8a7f0256",
+								"pay"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Projects Copy",
 			"item": [
 				{
 					"name": "Create New Project",
@@ -317,7 +489,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"vendor_id\": \"6088cd7a-fe40-418c-840f-918981da1446\",\r\n    \"name\": \"test\"\r\n}",
+							"raw": "{\r\n    \"project_name\": \"Rumah pertama\",\r\n  \"name\": \"Desain\",\r\n  \"lat\": 0.0,\r\n  \"long\": 0.0,\r\n  \"type\": \"Bangun Baru\",\r\n  \"buildingtype\": \"Rumah\",\r\n  \"area\": 50,\r\n  \"numperson\": 5,\r\n  \"numroom\": 5,\r\n  \"numbathroom\": 2,\r\n  \"numfloor\": 1,\r\n  \"theme\": \"Asian\",\r\n  \"budget\": \"251 juta - 500 juta\",\r\n  \"buildingtime\": \"2024-07-17\",\r\n  \"notes\": \"buat rumah yang cepettttt\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -325,14 +497,15 @@
 							}
 						},
 						"url": {
-							"raw": "{{DOMAIN}}/api/v1/projects",
+							"raw": "{{DOMAIN}}/api/v1/projects/32222c8b-82ee-4956-822c-30f02e301cbc",
 							"host": [
 								"{{DOMAIN}}"
 							],
 							"path": [
 								"api",
 								"v1",
-								"projects"
+								"projects",
+								"32222c8b-82ee-4956-822c-30f02e301cbc"
 							]
 						}
 					},
@@ -368,6 +541,36 @@
 					"response": []
 				},
 				{
+					"name": "Get Projects By Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/projects/a58571ec-2a55-45b7-ab95-150c4af5e9a2",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"projects",
+								"a58571ec-2a55-45b7-ab95-150c4af5e9a2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Delete Project By Id",
 					"request": {
 						"auth": {
@@ -383,7 +586,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{DOMAIN}}/api/v1/projects/03df868c-ec45-4564-b67a-54a4d0ad49b3",
+							"raw": "{{DOMAIN}}/api/v1/projects/dfdf350e-141b-4cce-994a-8b920c24b2a4",
 							"host": [
 								"{{DOMAIN}}"
 							],
@@ -391,19 +594,107 @@
 								"api",
 								"v1",
 								"projects",
-								"03df868c-ec45-4564-b67a-54a4d0ad49b3"
+								"dfdf350e-141b-4cce-994a-8b920c24b2a4"
 							]
 						}
 					},
 					"response": []
-				}
-			]
-		},
-		{
-			"name": "Transactions",
-			"item": [
+				},
 				{
-					"name": "Create New Transaction",
+					"name": "accept project",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/projects/a58571ec-2a55-45b7-ab95-150c4af5e9a2/accept-project",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"projects",
+								"a58571ec-2a55-45b7-ab95-150c4af5e9a2",
+								"accept-project"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check project",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/projects/63e8a796-d723-43de-a93a-affd8a7f0256/check-project",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"projects",
+								"63e8a796-d723-43de-a93a-affd8a7f0256",
+								"check-project"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Finish project",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/projects/63e8a796-d723-43de-a93a-affd8a7f0256/finish-project",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"projects",
+								"63e8a796-d723-43de-a93a-affd8a7f0256",
+								"finish-project"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add status",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -419,7 +710,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"project_id\": \"958bf73d-f923-417e-b4c3-7c2aa860a29d\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Ada perbaikan\",\r\n    \"desc\": \"perbaikan akan dilakukan dengan estimasi 1 hari\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -427,21 +718,63 @@
 							}
 						},
 						"url": {
-							"raw": "{{DOMAIN}}/api/v1/transactions",
+							"raw": "{{DOMAIN}}/api/v1/projects/status/63e8a796-d723-43de-a93a-affd8a7f0256",
 							"host": [
 								"{{DOMAIN}}"
 							],
 							"path": [
 								"api",
 								"v1",
-								"transactions"
+								"projects",
+								"status",
+								"63e8a796-d723-43de-a93a-affd8a7f0256"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Get Transaction By Id",
+					"name": "add info",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Ada perbaikan\",\r\n    \"desc\": \"perbaikan akan dilakukan dengan estimasi 1 hari\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/projects/df65e05b-457e-4bb6-b43b-01b32ff7a737/info",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"projects",
+								"df65e05b-457e-4bb6-b43b-01b32ff7a737",
+								"info"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get info by project id",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -456,15 +789,213 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{DOMAIN}}/api/v1/transactions/7799f57d-3916-4310-bd99-90d6c3a7cee9",
+							"raw": "{{DOMAIN}}/api/v1/projects/ffa6a17c-7a72-41c0-aaaf-4eb0fd6560f8/info",
 							"host": [
 								"{{DOMAIN}}"
 							],
 							"path": [
 								"api",
 								"v1",
-								"transactions",
-								"7799f57d-3916-4310-bd99-90d6c3a7cee9"
+								"projects",
+								"ffa6a17c-7a72-41c0-aaaf-4eb0fd6560f8",
+								"info"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get info by project id Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/projects/info/e788236f-932d-44e9-86b1-83205bc4c776",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"projects",
+								"info",
+								"e788236f-932d-44e9-86b1-83205bc4c776"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update info by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Name Arsitek\",\r\n    \"value\": \"new Hasbulla magomedov\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/projects/info/e788236f-932d-44e9-86b1-83205bc4c776",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"projects",
+								"info",
+								"e788236f-932d-44e9-86b1-83205bc4c776"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add lampiran",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Ada perbaikan\",\r\n    \"link\": \"http:dsakjhdjasnuikhdksajdlkjasdas\",\r\n    \"desc\": \"sudah diperbaiki yaa babikk\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/projects/lampiran/bb7966c6-511f-4a46-b5dd-bc06f0082296",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"projects",
+								"lampiran",
+								"bb7966c6-511f-4a46-b5dd-bc06f0082296"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get status by project id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Ada perbaikan\",\r\n    \"desc\": \"perbaikan akan dilakukan dengan estimasi 1 hari\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/projects/status/63e8a796-d723-43de-a93a-affd8a7f0256",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"projects",
+								"status",
+								"63e8a796-d723-43de-a93a-affd8a7f0256"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get lampiran by project id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Ada perbaikan\",\r\n    \"desc\": \"perbaikan akan dilakukan dengan estimasi 1 hari\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DOMAIN}}/api/v1/projects/lampiran/bb7966c6-511f-4a46-b5dd-bc06f0082296",
+							"host": [
+								"{{DOMAIN}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"projects",
+								"lampiran",
+								"bb7966c6-511f-4a46-b5dd-bc06f0082296"
 							]
 						}
 					},
@@ -592,7 +1123,7 @@
 							"query": [
 								{
 									"key": "architect_id",
-									"value": "7d492cd4-0c82-45f9-a72c-539d8d553b42",
+									"value": "5b03fb10-7c15-4040-add1-9641b59bace8",
 									"disabled": true
 								}
 							]
@@ -736,13 +1267,6 @@
 								"v1",
 								"portofolios",
 								"trending"
-							],
-							"query": [
-								{
-									"key": "theme_id",
-									"value": "b710cd18-bc36-4adc-bb07-f14660206fb3",
-									"disabled": true
-								}
 							]
 						}
 					},
@@ -773,13 +1297,6 @@
 								"v1",
 								"portofolios",
 								"recent"
-							],
-							"query": [
-								{
-									"key": "theme_id",
-									"value": "b710cd18-bc36-4adc-bb07-f14660206fb3",
-									"disabled": true
-								}
 							]
 						}
 					},
@@ -1081,7 +1598,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"receiver_id\": \"79f27fb1-1598-4848-843b-99f0dd8369ce\",\r\n    \"message\": \"new halo\"\r\n}",
+							"raw": "{\r\n    \"receiver_id\": \"089469f2-7f2b-489e-a712-2ef772741f03\",\r\n    \"message\": \"test\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1142,7 +1659,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Last Messages",
+					"name": "Get Last Messages Copy",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1238,16 +1755,6 @@
 				{
 					"name": "Get Trending Themes",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{TOKEN}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
