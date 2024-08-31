@@ -10,6 +10,8 @@ const projectsRepository = new ProjectsRepository();
 const usersRepository = new UsersRepository();
 const projectsController = new ProjectsController(projectsRepository, usersRepository);
 
+router.post('/recommended-architects', authMiddleware, (req, res) => projectsController.getRecommendedArchitects(req, res));
+
 router.post('/:id', authMiddleware, (req, res) => projectsController.addProject(req, res));
 router.get('/', authMiddleware, (req, res) => projectsController.getProjectsByUserId(req, res));
 router.get('/:id', authMiddleware, (req, res) => projectsController.getProjectsById(req, res));
@@ -29,8 +31,6 @@ router.post('/:id/info', authMiddleware, (req, res) => projectsController.addInf
 router.get('/:id/info', authMiddleware, (req, res) => projectsController.getInfoByProjectId(req, res));
 router.put('/info/:id', authMiddleware, (req, res) => projectsController.updateInfoById(req, res));
 router.delete('/info/:id', authMiddleware, (req, res) => projectsController.deleteInfoById(req, res));
-
-router.get('/recommended-architects/:project_id', authMiddleware, (req, res) => projectsController.getRecommendedArchitects(req, res));
 
 
 module.exports = router;

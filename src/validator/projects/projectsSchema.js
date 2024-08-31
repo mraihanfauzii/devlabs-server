@@ -16,8 +16,16 @@ const deleteProjectById = Joi.object({
   user_id: Joi.string().required(),
 });
 
+const getRecommendedArchitects = Joi.object({
+  area: Joi.number().integer().required(),
+  city: Joi.string().required(),
+  theme: Joi.string().required(),
+  budget: Joi.string().required(),
+});
+
 module.exports = {
   addProject,
   getProjectsByUserId,
   deleteProjectById,
+  getRecommendedArchitects,
 };
