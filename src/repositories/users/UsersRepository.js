@@ -71,15 +71,15 @@ class UsersRepository {
   }
 
   async updateUserProfile(data) {
-    const { id, profile_name, profile_picture, profile_description, phonenumber } = data;
+    const { id, profile_name, profile_picture, profile_description, phonenumber, city, rate } = data;
 
     const query = {
       text: `
         UPDATE users
-        SET profile_name = $1, profile_picture = $2, profile_description = $3, phonenumber = $4
-        WHERE id = $5
+        SET profile_name = $1, profile_picture = $2, profile_description = $3, phonenumber = $4, city = $5, rate = $6
+        WHERE id = $7
         RETURNING id`,
-      values: [profile_name, profile_picture, profile_description, phonenumber, id],
+      values: [profile_name, profile_picture, profile_description, phonenumber, city, rate, id],
     };
 
     const result = await db.command(query);
