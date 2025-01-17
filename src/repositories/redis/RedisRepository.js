@@ -5,9 +5,13 @@ const dataWrapper = require('../../utils/dataWrapper');
 class RedisRepository {
   constructor() {
     this.client = redis.createClient({
-      host: process.env.REDIS_HOST || '127.0.0.1',
-      port: process.env.REDIS_PORT || 6379,
-      index: process.env.REDIS_DB_INDEX || 0,
+      socket: {
+        host: process.env.REDIS_HOST || '127.0.0.1',
+        port: process.env.REDIS_PORT || 6379,
+        index: process.env.REDIS_DB_INDEX || 0,
+      },
+      password: process.env.REDIS_PASSWORD || null,
+      database: process.env.REDIS_DB_INDEX || 0,
     });
 
     this.client.on('error', (error) => {
